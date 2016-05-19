@@ -7,10 +7,10 @@
     </appender>
 
     <logger name="org.absolutegalaber" level="INFO"/>
-    <logger name="org.springframework" level="INFO"/>
-    <logger name="org.hibernate" level="INFO"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
     <logger name="org.apache" level="WARN"/>
-    <logger name="org.flywaydb" level="INFO"/>
+    <logger name="org.flywaydb" level="WARN"/>
     <logger name="com.mysema" level="WARN"/>
 
     <root level="INFO">

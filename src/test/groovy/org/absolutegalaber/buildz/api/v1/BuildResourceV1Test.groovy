@@ -2,6 +2,7 @@ package org.absolutegalaber.buildz.api.v1
 
 import groovy.json.JsonSlurper
 import groovyx.net.http.HttpResponseDecorator
+import groovyx.net.http.HttpResponseException
 import net.sf.json.JSONObject
 import org.absolutegalaber.buildz.api.BaseRestSpec
 
@@ -49,6 +50,16 @@ class BuildResourceV1Test extends BaseRestSpec {
         then:
         data.id == 1
         data.project == 'buildz-project'
+    }
+
+    def "Get Missing Build"() {
+        when:
+        restClient.get([
+                path: '/v1/builds/-1'
+        ])
+
+        then:
+        thrown(HttpResponseException)
     }
 
     def "Create and AddLabel"() {
