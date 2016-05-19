@@ -6,7 +6,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.piranha.util.buildz" level="INFO"/>
+    <logger name="org.absolutegalaber" level="INFO"/>
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.hibernate" level="INFO"/>
     <logger name="org.apache" level="WARN"/>

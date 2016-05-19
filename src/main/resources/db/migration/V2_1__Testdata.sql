@@ -6,7 +6,7 @@ INSERT INTO build (id, branch, build_number, project) VALUES (1, 'master', 1, 'b
 INSERT INTO build (id, branch, build_number, project) VALUES (2, 'master', 2, 'buildz-project');
 INSERT INTO build (id, branch, build_number, project) VALUES (3, 'next', 3, 'buildz-project');
 INSERT INTO build (id, branch, build_number, project) VALUES (4, 'next', 4, 'buildz-project');
-INSERT INTO build (id, branch, build_number, project) VALUES (5, 'master', 5, 'buildz-test');
+INSERT INTO build (id, branch, build_number, project) VALUES (5, 'master', 2, 'buildz-test');
 
 -- some labels
 -- labels of build #1
@@ -43,8 +43,8 @@ INSERT INTO build_label (id, label_key, label_value, build_id) VALUES (
 
 -- labels of build #2
 INSERT INTO build_label (id, label_key, label_value, build_id) VALUES (
-  9, 'technical_branch', 'feature/some-other-feature', 4
+  9, 'technical_branch', 'feature/some-other-feature', 5
 );
 INSERT INTO build_label (id, label_key, label_value, build_id) VALUES (
-  10, 'git_revision', '59cfc933d6f276ced6ea6e5903e0bd2c28613def', 4
+  10, 'git_revision', '59cfc933d6f276ced6ea6e5903e0bd2c28613def', 5
 );

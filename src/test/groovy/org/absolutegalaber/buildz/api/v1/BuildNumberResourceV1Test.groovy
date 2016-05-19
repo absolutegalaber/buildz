@@ -9,32 +9,38 @@ import org.absolutegalaber.buildz.api.BaseRestSpec
  */
 class BuildNumberResourceV1Test extends BaseRestSpec {
 
+    def "Set(), Current(), Next()"() {
+        given:
+        String theProject = 'Some-New-Crazy-Project'
+        String theBranch = 'master'
 
-    def "Next"() {
         when:
-        HttpResponseDecorator response = restClient.post([
-                path: '/v1/buildNumbers/next',
+        HttpResponseDecorator setResponse = restClient.post([
+                path: '/v1/buildNumbers/set',
                 body: [
-                        project: 'buildz-testproject',
-                        branch : 'master'
+                        project: theProject,
+                        branch : theBranch,
+                        count  : 2
                 ]
         ])
-        def responseData = response.data as JSONObject
+        HttpResponseDecorator currentResponse = restClient.get([
+                path: "/v1/buildNumbers/current/${theProject}/${theBranch}"
+        ])
+        HttpResponseDecorator nextResponse = restClient.post([
+                path: '/v1/buildNumbers/next',
+                body: [
+                        project: theProject,
+                        branch : theBranch
+                ]
+        ])
 
         then:
-        response.isSuccess()
+        setResponse.isSuccess()
+        currentResponse.isSuccess()
+        nextResponse.isSuccess()
 
         and:
-        responseData.count == 1
-
-
-    }
-
-    def "Current"() {
-
-    }
-
-    def "Set"() {
-
+        (currentResponse.data as JSONObject).count == 2
+        (nextResponse.data as JSONObject).count == 3
     }
 }

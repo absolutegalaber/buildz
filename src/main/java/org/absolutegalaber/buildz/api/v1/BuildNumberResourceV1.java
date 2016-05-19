@@ -1,7 +1,7 @@
 package org.absolutegalaber.buildz.api.v1;
 
-import org.absolutegalaber.buildz.service.BuildCountService;
 import org.absolutegalaber.buildz.domain.BuildCount;
+import org.absolutegalaber.buildz.service.BuildCountService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -25,7 +25,7 @@ public class BuildNumberResourceV1 {
         return buildCountService.current(project, branch);
     }
 
-    @RequestMapping(value = "/set", method = RequestMethod.GET)
+    @RequestMapping(value = "/set", method = RequestMethod.POST)
     public void set(@RequestBody BuildCount buildCount) {
         buildCountService.set(buildCount.getProject(), buildCount.getBranch(), buildCount.getCount());
     }
