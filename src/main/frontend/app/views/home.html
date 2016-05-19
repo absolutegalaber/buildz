@@ -1,0 +1,12 @@
+<div layout="row" layout-align="center">
+    <div layout="column" flex="50">
+        <h3 layout-align="center">Ugly as shit, but who cares?</h3>
+        <p layout-align="center">
+            Currently {{HomeController.stats.projects.length}} different projects with
+            {{HomeController.stats.numberOfBuilds}} Builds and {{HomeController.stats.numberOfLabels}} Labels.
+        </p>
+    </div>
+    <div layout="column" flex="50" layout-align="center">
+        <md-button ng-repeat="project in HomeController.stats.projects" ng-click="HomeController.selectProject(project)">{{project}}</md-button>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+{
+  "name": "frontend",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "v1.5.5",
+    "angular-animate": "v1.5.5",
+    "angular-resource": "v1.5.5",
+    "angular-sanitize": "v1.5.5",
+    "angular-ui-router": "0.2.18",
+    "angular-material": "1.0.8"
+  },
+  "devDependencies": {
+    "angular-mocks": "v1.5.5"
+  },
+  "appPath": "app",
+  "moduleName": "buildz"
+}

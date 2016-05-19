@@ -1,0 +1,25 @@
+<div layout="column" layout-align layout-margin layout-padding>
+    <div flex>
+        <h3>Build</h3>
+        <div layout="row">
+            <div flex="30">Project:</div>
+            <div flex><a class="md-link" ng-click="BuildController.selectProject()">{{BuildController.build.project}}</a></div>
+        </div>
+        <div layout="row">
+            <div flex="30">Branch:</div>
+            <div><a class="md-link" ng-click="BuildController.selectProjectAndBranch()">{{BuildController.build.branch}}</a></div>
+        </div>
+        <div layout="row">
+            <div flex="30">BuildNumber:</div>
+            <div>{{BuildController.build.buildNumber}}</div>
+        </div>
+    </div>
+    <div flex>
+        <h3>Label</h3>
+        <div layout="row" ng-repeat="label in BuildController.build.labels">
+            <div flex="30">{{label.key}}</div>
+            <div><a class="md-link" ng-click="BuildController.selectLabel(label.key, label.value)">{{label.value}}</a></div>
+        </div>
+    </div>
+</div>
+

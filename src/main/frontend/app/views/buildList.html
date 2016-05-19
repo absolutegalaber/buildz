@@ -1,0 +1,87 @@
+<div layout="row" layout-fill>
+    <div flex="40" layout-padding>
+        <div class="md-whiteframe-1dp">
+            <form ng-submit="BuildListController.search.load()">
+                <md-input-container class="md-block">
+                    <label>Project</label>
+                    <input type="text" ng-model="BuildListController.search.project">
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Branch</label>
+                    <input type="text" ng-model="BuildListController.search.branch">
+                </md-input-container>
+                <div layout="row" layout-padding>
+                    <md-input-container class="md-block">
+                        <label>MinBuild</label>
+                        <input type="number" ng-model="BuildListController.search.minBuildNumber">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>MaxBuild</label>
+                        <input type="number" ng-model="BuildListController.search.maxBuildNumber">
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-padding ng-repeat="searchLabel in BuildListController.search.labels">
+                    <md-input-container class="md-block">
+                        <label>Label Key</label>
+                        <input type="text" ng-model="searchLabel.key">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Label Value</label>
+                        <input type="text" ng-model="searchLabel.value">
+                    </md-input-container>
+                    <md-button class="md-mini" ng-click="BuildListController.search.deleteLabel(searchLabel)">x</md-button>
+                </div>
+                <div layout="row" layout-align="end">
+                    <md-button ng-click="BuildListController.search.addLabel()">Add Label</md-button>
+                </div>
+
+                <div layout="row" layout-padding>
+                    <md-input-container class="md-block">
+                        <label>Sort By</label>
+                        <md-select ng-model="BuildListController.search.sortAttribute">
+                            <md-option value="project">Project Name</md-option>
+                            <md-option value="branch">Branch Name</md-option>
+                            <md-option value="buildNumber">BuildNumber</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Direction</label>
+                        <md-select ng-model="BuildListController.search.sortDirection">
+                            <md-option value="asc">ASC</md-option>
+                            <md-option value="desc">DESC</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <md-input-container class="md-block">
+                    <label>Build per Page</label>
+                    <md-select ng-model="BuildListController.search.pageSize">
+                        <md-option value="5">5</md-option>
+                        <md-option value="10">10</md-option>
+                        <md-option value="20">20</md-option>
+                        <md-option value="50">50</md-option>
+                    </md-select>
+                </md-input-container>
+                <div layout="row" layout-align="center">
+                    <md-button ng-click="BuildListController.search.previousPage()" ng-disabled="!BuildListController.search.hasPrevious">&lt;</md-button>
+                    <md-button disabled="true">{{BuildListController.search.page+1}} / {{BuildListController.search.totalPages}}</md-button>
+                    <md-button ng-click="BuildListController.search.nextPage()" ng-disabled="!BuildListController.search.hasNext">&gt;</md-button>
+                </div>
+                <div layout="row" layout-align="center">
+                    <md-button ng-click="BuildListController.search.clear()">Clear</md-button>
+                    <span flex></span>
+                    <md-button type="submit" class="md-primary">Search</md-button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div flex="60">
+        <md-list layout-fill>
+            <md-list-item>
+                <h3>Found a total of {{BuildListController.search.totalElements}} Builds</h3>
+            </md-list-item>
+            <md-list-item ng-repeat="build in BuildListController.search.builds" ui-sref="build({id:build.id})" layout-align="center">
+                {{build.project}} : {{build.branch}} : {{build.buildNumber}}
+            </md-list-item>
+        </md-list>
+    </div>
+</div>
