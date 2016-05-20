@@ -32,7 +32,7 @@ class BuildServiceTest extends BaseBuildzSpec {
 
     def "Create"() {
         expect:
-        service.create('buildz-project', 'next', 1).id
+        service.create('buildz-backend', 'next', 1).id
     }
 
     def "AddLabels"() {
@@ -64,7 +64,7 @@ class BuildServiceTest extends BaseBuildzSpec {
 
     def "Stats"() {
         expect:
-        service.stats().numberOfBuilds == 5L
+        service.stats().numberOfBuilds == 12L
     }
 
     @Unroll("#message")
@@ -106,10 +106,10 @@ class BuildServiceTest extends BaseBuildzSpec {
 
         where:
         theProject       | theBranch | theLabelKey        | theLabelValue                | expected | theMinBuildNumber | theMaxBuildNumber | message
-        null             | null      | null               | null                         | 5        | null              | null              | "Search(): finds all builds for empty search"
-        null             | null      | null               | null                         | 2        | 1                 | 3                 | "Search(): finds both builds with build number = 2"
-        'buildz-project' | null      | null               | null                         | 4        | null              | null              | "Search(): finds all builds of project 'buildz-project'"
-        'buildz-project' | 'master'  | null               | null                         | 2        | null              | null              | "Search(): finds all builds of project 'buildz-project' of branch 'master"
+        null             | null      | null               | null                         | 10       | null              | null              | "Search(): finds all builds for empty search"
+        null             | null      | null               | null                         | 3        | 1                 | 3                 | "Search(): finds all builds with build number = 2"
+        'buildz-backend' | null      | null               | null                         | 4        | null              | null              | "Search(): finds all builds of project 'buildz-backend'"
+        'buildz-backend' | 'master'  | null               | null                         | 2        | null              | null              | "Search(): finds all builds of project 'buildz-backend' of branch 'master"
         null             | null      | 'technical_branch' | 'feature/some-other-feature' | 2        | null              | null              | "Search(): finds all builds of projects with label technical_branch=feature/some-other-feature"
         null             | null      | 'technical_branch' | 'noSuchBranch'               | 0        | null              | null              | "Search(): is empty for empty lbel sub-search"
 

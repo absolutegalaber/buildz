@@ -12,7 +12,7 @@
     <logger name="org.apache" level="WARN"/>
     <logger name="org.flywaydb" level="WARN"/>
     <logger name="com.mysema" level="WARN"/>
-    <logger name="groovyx.net.http" level="DEBUG"/>
+    <logger name="groovyx.net.http" level="WARN"/>
 
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>

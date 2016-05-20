@@ -31,8 +31,8 @@ class BuildCountServiceTest extends BaseBuildzSpec {
 
         where:
         project             | branch    | expected | message
-        'buildz-project'    | 'master'  | 2L       | "Next(): Increments existing build count"
-        'buildz-project'    | 'release' | 1L       | "Next(): Creates non-existing build count for new branch"
+        'buildz-backend'    | 'master'  | 2L       | "Next(): Increments existing build count"
+        'buildz-backend'    | 'release' | 1L       | "Next(): Creates non-existing build count for new branch"
         'buildz-sub-module' | 'master'  | 1L       | "Next(): Creates non-existing build count for new project"
 
     }
@@ -52,8 +52,8 @@ class BuildCountServiceTest extends BaseBuildzSpec {
 
         where:
         project          | branch    | expected | message
-        'buildz-project' | 'master'  | 1L       | "Current(): returns current existing build count"
-        'buildz-project' | 'release' | 0L       | "Current(): return non-existing build count with count = 0"
+        'buildz-backend' | 'master'  | 1L       | "Current(): returns current existing build count"
+        'buildz-backend' | 'release' | 0L       | "Current(): return non-existing build count with count = 0"
     }
 
     def "Set"() {
@@ -66,7 +66,7 @@ class BuildCountServiceTest extends BaseBuildzSpec {
 
         where:
         project             | branch    | message
-        'buildz-project'    | 'master'  | "Set(): sets build number for existing build count"
+        'buildz-backend'    | 'master'  | "Set(): sets build number for existing build count"
         'buildz-sub-module' | 'release' | "Set(): creates build number for existing build count"
     }
 }

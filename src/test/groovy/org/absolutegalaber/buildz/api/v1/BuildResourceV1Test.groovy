@@ -26,11 +26,11 @@ class BuildResourceV1Test extends BaseRestSpec {
 
     def "Search"() {
         when:
-        //search for project 'buildz-project'
+        //search for project 'buildz-backend'
         HttpResponseDecorator response = restClient.post([
                 path: '/v1/builds/search',
                 body: [
-                        project: 'buildz-project'
+                        project: 'buildz-backend'
                 ]
         ])
         def data = response.data as JSONObject
@@ -49,7 +49,7 @@ class BuildResourceV1Test extends BaseRestSpec {
 
         then:
         data.id == 1
-        data.project == 'buildz-project'
+        data.project == 'buildz-backend'
     }
 
     def "Get Missing Build"() {
@@ -67,7 +67,7 @@ class BuildResourceV1Test extends BaseRestSpec {
         HttpResponseDecorator response = restClient.post([
                 path: '/v1/builds/create',
                 body: [
-                        project    : 'buildz-project',
+                        project    : 'buildz-backend',
                         branch     : 'cool-new-feature',
                         buildNumber: 1
                 ]
@@ -89,7 +89,7 @@ class BuildResourceV1Test extends BaseRestSpec {
         labeledData.id == data.id
 
         and:
-        data.project == 'buildz-project'
+        data.project == 'buildz-backend'
         data.branch == 'cool-new-feature'
         data.buildNumber == 1
 
