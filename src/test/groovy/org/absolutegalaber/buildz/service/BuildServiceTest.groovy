@@ -107,6 +107,52 @@ class BuildServiceTest extends BaseBuildzSpec {
         'buildz-backend' | 'master'  | null               | null                         | 2        | null              | null              | "Search(): finds all builds of project 'buildz-backend' of branch 'master"
         null             | null      | 'technical_branch' | 'feature/some-other-feature' | 2        | null              | null              | "Search(): finds all builds of projects with label technical_branch=feature/some-other-feature"
         null             | null      | 'technical_branch' | 'noSuchBranch'               | 0        | null              | null              | "Search(): is empty for empty lbel sub-search"
+    }
 
+    def "Latest()"() {
+        Artifact artifact = new Artifact(
+                project: theProject,
+                branch: theBranch
+        )
+        if (theLabelKey && theLabelValue) {
+            artifact.getLabels().put(theLabelKey, theLabelValue)
+        }
+        when:
+        Optional<Build> latest = service.latestArtifact(artifact)
+
+        then:
+        latest.isPresent() == (expectedBuildNumber != null)
+        if (expectedBuildNumber) {
+            latest.get().getBuildNumber() == expectedBuildNumber
+        }
+
+        where:
+        theProject       | theBranch        | theLabelKey        | theLabelValue                | expectedBuildNumber | message
+        'buildz-backend' | 'master'         | null               | null                         | 2L                  | "Search(): finds latest build of branch master"
+        'buildz-backend' | null             | 'technical_branch' | 'feature/some-other-feature' | 4L                  | "Search(): finds latest build for a spcific label"
+        'buildz-backend' | null             | 'doesnot'          | 'exist'                      | null                | "Search(): is empty for missing labels"
+        'buildz-backend' | 'deleted-branch' | null               | null                         | null                | "Search(): is empty for missing project/branch combo"
+    }
+
+    @Unroll("#message")
+    def "OfEnvironment"() {
+        when:
+        EnvironmentBuilds builds = service.ofEnvironment(envName)
+
+        then:
+        builds.builds.size() == expectedSize
+
+        where:
+        envName                | expectedSize | message
+        'feature-test-stage-1' | 2            | "OfEnvironment(): returns 2 builds for well - defined Environment (#envName)"
+        'master-test-stage-1'  | 0            | "OfEnvironment(): returns 0 builds for un-defined Environment (#envName)"
+    }
+
+    def "OfEnvironment with wrong env name"() {
+        when:
+        service.ofEnvironment('no-such-env')
+
+        then:
+        thrown(InvalidRequestException)
     }
 }

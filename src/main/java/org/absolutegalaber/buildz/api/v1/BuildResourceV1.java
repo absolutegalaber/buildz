@@ -48,4 +48,9 @@ public class BuildResourceV1 {
         return buildService.addLabels(buildId, buildLabels);
     }
 
+    @RequestMapping(value = "/ofEnvironment/{name}", method = RequestMethod.GET)
+    public EnvironmentBuilds environment(@PathVariable String name) throws InvalidRequestException {
+        return buildService.ofEnvironment(name);
+    }
+
 }

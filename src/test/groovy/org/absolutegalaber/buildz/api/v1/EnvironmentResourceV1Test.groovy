@@ -3,9 +3,9 @@ package org.absolutegalaber.buildz.api.v1
 import groovy.json.JsonSlurper
 import groovyx.net.http.HttpResponseDecorator
 import groovyx.net.http.HttpResponseException
+import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 import org.absolutegalaber.buildz.api.BaseRestSpec
-import spock.lang.Ignore
 
 /**
  * Created by Josip.Mihelko @ Gmail
@@ -36,12 +36,15 @@ class EnvironmentResourceV1Test extends BaseRestSpec {
         thrown(HttpResponseException)
     }
 
-    @Ignore
-    def "Create"() {
+    def "Save"() {
         when:
         HttpResponseDecorator response = restClient.post([
-                path: '/v1/environments/create',
-                body: [name: 'shiny-nw-environment']
+                path: '/v1/environments/',
+                body: new JsonSlurper().parseText("""
+{
+    "name":"my-shiny-new-environment"
+}
+""")
         ])
 
         then:
@@ -51,23 +54,22 @@ class EnvironmentResourceV1Test extends BaseRestSpec {
         (response.data as JSONObject).id
     }
 
-    @Ignore
-    def "AddArtifact"() {
+
+    def "Verify"() {
         when:
         HttpResponseDecorator response = restClient.post([
-                path: '/v1/environments/addArtifact/master-test-stage-1',
+                path: '/v1/environments/verify',
                 body: new JsonSlurper().parseText("""
-{
-    "project": "buildz-backend",
-    "labels": {
-        "some-crazy-docker-image-name": "docker-image",
-        "technical_branch": "feature"
-    }
-}
+    [
+    {"project":"buildz-backend", "branch":"master"}
+    ]
 """)
         ])
 
         then:
         response.isSuccess()
+
+        and:
+        (response.data as JSONArray).size() == 1
     }
 }

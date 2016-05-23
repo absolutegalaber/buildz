@@ -52,6 +52,17 @@ class BuildResourceV1Test extends BaseRestSpec {
         data.project == 'buildz-backend'
     }
 
+    def "OfEnvironment"() {
+        when:
+        HttpResponseDecorator response = restClient.get([
+                path: '/v1/builds/ofEnvironment/feature-test-stage-1'
+        ])
+        def data = response.data as JSONObject
+
+        then:
+        data.builds.size() == 2
+    }
+
     def "Get Missing Build"() {
         when:
         restClient.get([

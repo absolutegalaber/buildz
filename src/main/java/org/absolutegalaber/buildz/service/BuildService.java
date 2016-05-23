@@ -7,6 +7,7 @@ import com.mysema.query.types.expr.BooleanExpression;
 import org.absolutegalaber.buildz.domain.*;
 import org.absolutegalaber.buildz.repository.BuildLabelRepository;
 import org.absolutegalaber.buildz.repository.BuildRepository;
+import org.absolutegalaber.buildz.repository.EnvironmentRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -29,6 +30,8 @@ public class BuildService {
     private BuildRepository buildRepository;
     @Inject
     private BuildLabelRepository buildLabelRepository;
+    @Inject
+    private EnvironmentRepository environmentRepository;
 
 
     public Optional<Build> byId(Long id) {
@@ -151,5 +154,18 @@ public class BuildService {
             );
             searchBuilder.and(subQuery);
         }
+    }
+
+    public EnvironmentBuilds ofEnvironment(String environmentName) throws InvalidRequestException {
+        Environment environment = environmentRepository.findByName(environmentName);
+        if (environment == null) {
+            throw new InvalidRequestException("No Environment found with name=" + environmentName);
+        }
+        EnvironmentBuilds builds = new EnvironmentBuilds();
+        for (Artifact artifact : environment.getArtifacts()) {
+            Optional<Build> build = latestArtifact(artifact);
+            build.ifPresent(builds::add);
+        }
+        return builds;
     }
 }

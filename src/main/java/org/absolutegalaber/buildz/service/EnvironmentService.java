@@ -36,13 +36,6 @@ public class EnvironmentService {
         return environmentRepository.save(environment);
     }
 
-    public Environment addArtifact(String name, Artifact artifact) throws InvalidRequestException {
-        Environment environment = byName(name).orElseThrow(() -> new InvalidRequestException("No Environment found for name=" + name));
-        artifact.setEnvironment(environment);
-        environment.getArtifacts().add(artifact);
-        return environmentRepository.save(environment);
-    }
-
     public Environment save(Environment environment) throws InvalidRequestException {
         if (environment.getId() != null) {
             //an update ==> we don't mess around here and clean the depending side environment.artifact

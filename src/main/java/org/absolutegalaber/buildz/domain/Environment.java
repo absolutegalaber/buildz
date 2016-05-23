@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by Josip.Mihelko @ Gmail
@@ -32,13 +32,5 @@ public class Environment {
     @OneToMany(mappedBy = "environment", cascade = CascadeType.ALL)
     @Getter
     @Setter
-    private Set<Artifact> artifacts;
-
-    @Transient
-    public Set<Long> collectArtifactIds() {
-        return artifacts
-                .stream()
-                .map(Artifact::getId)
-                .collect(Collectors.toSet());
-    }
+    private Set<Artifact> artifacts = new HashSet<>();
 }
