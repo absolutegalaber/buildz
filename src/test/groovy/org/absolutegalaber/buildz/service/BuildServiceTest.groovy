@@ -62,11 +62,6 @@ class BuildServiceTest extends BaseBuildzSpec {
         thrown(InvalidRequestException)
     }
 
-    def "Stats"() {
-        expect:
-        service.stats().numberOfBuilds == 12L
-    }
-
     @Unroll("#message")
     def "Search"() {
         given:

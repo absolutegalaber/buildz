@@ -1,8 +1,8 @@
 package org.absolutegalaber.buildz.api.v1;
 
-import org.absolutegalaber.buildz.domain.BuildStats;
 import org.absolutegalaber.buildz.domain.*;
 import org.absolutegalaber.buildz.service.BuildService;
+import org.absolutegalaber.buildz.service.StatsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -17,10 +17,12 @@ import java.util.Optional;
 public class BuildResourceV1 {
     @Inject
     private BuildService buildService;
+    @Inject
+    private StatsService statsService;
 
     @RequestMapping(value = "/stats", method = RequestMethod.GET)
     public BuildStats stats() {
-        return buildService.stats();
+        return statsService.stats();
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)

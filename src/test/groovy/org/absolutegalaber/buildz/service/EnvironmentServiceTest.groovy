@@ -1,7 +1,6 @@
 package org.absolutegalaber.buildz.service
 
 import org.absolutegalaber.buildz.BaseBuildzSpec
-import org.absolutegalaber.buildz.domain.Artifact
 import org.absolutegalaber.buildz.domain.Environment
 import org.absolutegalaber.buildz.domain.InvalidRequestException
 import spock.lang.Subject
@@ -41,22 +40,6 @@ class EnvironmentServiceTest extends BaseBuildzSpec {
     def "Create with duplicate name"() {
         when:
         service.create("master-test-stage-1")
-
-        then:
-        thrown(InvalidRequestException)
-    }
-
-    def "AddArtifact"() {
-        when:
-        Environment environment = service.addArtifact('master-test-stage-1', new Artifact(project: 'some-project', branch: 'master', labels: ['kex': 'value']))
-
-        then:
-        environment.artifacts.size() == 1
-    }
-
-    def "AddArtifact to non-existing Environment"() {
-        when:
-        service.addArtifact('missing', new Artifact(project: 'some-project', branch: 'master'))
 
         then:
         thrown(InvalidRequestException)

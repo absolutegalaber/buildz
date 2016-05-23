@@ -1,12 +1,27 @@
-<div layout="row" layout-align="center">
-    <div layout="column" flex="50">
-        <h3 layout-align="center">Ugly as shit, but who cares?</h3>
-        <p layout-align="center">
+<div layout="column">
+    <p layout="row" layout-align="center">
+        <strong>
             Currently {{HomeController.stats.projects.length}} different projects with
             {{HomeController.stats.numberOfBuilds}} Builds and {{HomeController.stats.numberOfLabels}} Labels.
-        </p>
-    </div>
-    <div layout="column" flex="50" layout-align="center">
-        <md-button ng-repeat="project in HomeController.stats.projects" ng-click="HomeController.selectProject(project)">{{project}}</md-button>
+        </strong>
+    </p>
+    <div layout="row">
+        <div flex="50">
+            <div layout="column" layout-align="center center">
+                <h3>Projects</h3>
+                <div ng-repeat="project in HomeController.stats.projects" layout-align="center">
+                    <md-button class="md-block" ng-click="HomeController.selectProject(project)">{{project}}</md-button>
+                </div>
+            </div>
+        </div>
+        <span flex></span>
+        <div flex="50">
+            <div layout="column" layout-align="center center">
+                <h3>Defined Environments</h3>
+                <div ng-repeat="environementName in HomeController.stats.environments" layout-align="center">
+                    <md-button ui-sref="environment({name:environementName})">{{environementName}}</md-button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

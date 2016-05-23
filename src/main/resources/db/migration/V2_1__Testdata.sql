@@ -37,6 +37,8 @@ INSERT INTO build_label (id, label_key, label_value, build_id) VALUES (10, 'git_
 INSERT INTO environment (id, name) VALUES (1, 'master-test-stage-1');
 
 INSERT INTO environment (id, name) VALUES (2, 'feature-test-stage-1');
-INSERT INTO artifact (id, branch, project, environment_id) VALUES (1, NULL, 'buildz-project', 2);
-INSERT INTO artifact_labels (artifact_id, labels, labels_key) VALUES (1, 'feature', 'technical_branch');
-INSERT INTO artifact_labels (artifact_id, labels, labels_key) VALUES (1, 'docker-image', 'some-crazy-docker-image-name');
+INSERT INTO artifact (id, branch, project, environment_id) VALUES (1, NULL, 'buildz-backend', 2);
+INSERT INTO artifact_labels (artifact_id, labels, labels_key) VALUES (1, 'feature/some-other-feature', 'technical_branch');
+
+INSERT INTO artifact (id, branch, project, environment_id) VALUES (2, NULL, 'buildz-frontend', 2);
+INSERT INTO artifact_labels (artifact_id, labels, labels_key) VALUES (2, 'feature/some-other-feature', 'technical_branch');

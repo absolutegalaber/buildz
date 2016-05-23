@@ -4,6 +4,7 @@
 module buildz {
 
     import IResource = angular.resource.IResource;
+    import IResourceClass = angular.resource.IResourceClass;
     export interface IBuildLabel {
         id:number;
         key:string;
@@ -28,11 +29,12 @@ module buildz {
     }
     export interface IBuildStatsResponse {
         builds:Array<string>;
+        environments:Array<string>;
         numberOfBuilds:number;
         numberOfLabels:number;
     }
 
-    export interface IBuildResource extends angular.resource.IResourceClass<IBuild> {
+    export interface IBuildResource extends IResourceClass<IBuild> {
         search(search:any):angular.resource.IResource<IBuildSearchResponse>
         stats():angular.resource.IResource<IBuildStatsResponse>
     }

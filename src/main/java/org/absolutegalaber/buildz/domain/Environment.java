@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Josip.Mihelko @ Gmail
@@ -19,17 +20,25 @@ public class Environment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
-    Long id;
+    private Long id;
 
     @Basic(optional = false)
     @Column(name = "name")
     @Getter
     @Setter
-    String name;
+    private String name;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "environment", cascade = CascadeType.ALL)
     @Getter
     @Setter
-    Set<Artifact> artifacts;
+    private Set<Artifact> artifacts;
+
+    @Transient
+    public Set<Long> collectArtifactIds() {
+        return artifacts
+                .stream()
+                .map(Artifact::getId)
+                .collect(Collectors.toSet());
+    }
 }

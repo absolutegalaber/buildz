@@ -4,16 +4,18 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.types.expr.BooleanExpression;
-import org.absolutegalaber.buildz.domain.BuildStats;
 import org.absolutegalaber.buildz.domain.*;
 import org.absolutegalaber.buildz.repository.BuildLabelRepository;
 import org.absolutegalaber.buildz.repository.BuildRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -74,51 +76,80 @@ public class BuildService {
     }
 
     public BuildSearchResult search(BuildSearch search) {
-        Set<BuildLabel> labelsToSearch = new HashSet<>();
-        //a subquery for searches over build labels
-        if (!search.getLabels().isEmpty()) {
-            BooleanBuilder labelSearch = new BooleanBuilder();
-            //a search over labels
-            search.getLabels().forEach((key, value) -> {
-                QBuildLabel theQBuildLabel = QBuildLabel.buildLabel;
-                BooleanExpression aLabelPred = theQBuildLabel.key.eq(key).and(theQBuildLabel.value.eq(value));
-                labelSearch.or(aLabelPred);
-            });
-            labelsToSearch = Sets.newHashSet(buildLabelRepository.findAll(labelSearch));
-            if (labelsToSearch.isEmpty()) {
-                //labels were searches, but no label was found ==> we can return an empty search result right now.
-                return BuildSearchResult.emptyResult();
-            }
+        try {
+            Set<BuildLabel> labelsToSearch = labelsToInclude(search.getLabels());
+            BooleanBuilder buildSearch = new BooleanBuilder();
+            addProjectAndBranchPredicates(buildSearch, search.getProject(), search.getBranch());
+            addMinMaxBuildNumberProedicates(buildSearch, search.getMinBuildNumber(), search.getMaxBuildNumber());
+            addLabelsPredicates(buildSearch, labelsToSearch);
+            return BuildSearchResult.fromPageResult(buildRepository.findAll(buildSearch, search.page()));
+        } catch (EmptyLabelsSearchException e) {
+            //labelsToInclude threw an exception because labels to search were specified but no labels could be found -> emtpy result
+            return BuildSearchResult.emptyResult();
         }
-        QBuild theQBuild = QBuild.build;
-        BooleanBuilder buildSearch = new BooleanBuilder();
-        if (!Strings.isNullOrEmpty(search.getProject())) {
-            buildSearch.and(theQBuild.project.eq(search.getProject()));
-        }
-        if (!Strings.isNullOrEmpty(search.getBranch())) {
-            buildSearch.and(theQBuild.branch.eq(search.getBranch()));
-        }
-        if (search.getMinBuildNumber() != null) {
-            buildSearch.and(theQBuild.buildNumber.gt(search.getMinBuildNumber()));
-        }
-        if (search.getMaxBuildNumber() != null) {
-            buildSearch.and(theQBuild.buildNumber.lt(search.getMaxBuildNumber()));
-        }
-        if (!labelsToSearch.isEmpty()) {
-            BooleanBuilder subQuery = new BooleanBuilder();
-            labelsToSearch.forEach(
-                    (label) -> subQuery.or(theQBuild.labels.contains(label))
-            );
-            buildSearch.and(subQuery);
-        }
-        return BuildSearchResult.fromPageResult(buildRepository.findAll(buildSearch, search.page()));
     }
 
-    public BuildStats stats() {
-        return new BuildStats(
-                buildRepository.distinctProjects(),
-                buildRepository.count(),
-                buildLabelRepository.count()
-        );
+    public Optional<Build> latestArtifact(Artifact artifact) {
+        try {
+            Set<BuildLabel> buildLabels = labelsToInclude(artifact.getLabels());
+            BooleanBuilder buildSearch = new BooleanBuilder();
+            addProjectAndBranchPredicates(buildSearch, artifact.getProject(), artifact.getBranch());
+            addLabelsPredicates(buildSearch, buildLabels);
+            Page<Build> searchResult = buildRepository.findAll(buildSearch, new PageRequest(0, 3, new Sort(Sort.Direction.DESC, "buildNumber")));
+            List<Build> foundBuilds = searchResult.getContent();
+            return foundBuilds.isEmpty() ? Optional.empty() : Optional.of(foundBuilds.get(0));
+        } catch (EmptyLabelsSearchException e) {
+            return Optional.empty();
+        }
+    }
+
+    private Set<BuildLabel> labelsToInclude(Map<String, String> labels) throws EmptyLabelsSearchException {
+        if (!labels.isEmpty()) {
+            BooleanBuilder labelSearch = new BooleanBuilder();
+            //a search over labels
+            labels.forEach((key, value) -> {
+                QBuildLabel theQBuildLabel = QBuildLabel.buildLabel;
+                BooleanExpression aLabelPredicate = theQBuildLabel.key.eq(key).and(theQBuildLabel.value.eq(value));
+                labelSearch.or(aLabelPredicate);
+            });
+            Set<BuildLabel> labelsToSearch = Sets.newHashSet(buildLabelRepository.findAll(labelSearch));
+            if (labelsToSearch.isEmpty()) {
+                //labels were searches, but no label was found ==> we can return an empty search result right now.
+                throw new EmptyLabelsSearchException();
+            }
+            //some labels were found, return them and proceed with any searches
+            return labelsToSearch;
+        }
+        return Sets.newHashSet();
+    }
+
+    private void addProjectAndBranchPredicates(BooleanBuilder searchBuilder, String project, String branch) {
+        //search for a project name
+        if (!Strings.isNullOrEmpty(project)) {
+            searchBuilder.and(QBuild.build.project.eq(project));
+        }
+        //search for a branch name
+        if (!Strings.isNullOrEmpty(branch)) {
+            searchBuilder.and(QBuild.build.branch.eq(branch));
+        }
+    }
+
+    private void addMinMaxBuildNumberProedicates(BooleanBuilder searchBuilder, Long minBuild, Long maxBuild) {
+        if (minBuild != null) {
+            searchBuilder.and(QBuild.build.buildNumber.gt(minBuild));
+        }
+        if (maxBuild != null) {
+            searchBuilder.and(QBuild.build.buildNumber.lt(maxBuild));
+        }
+    }
+
+    private void addLabelsPredicates(BooleanBuilder searchBuilder, Set<BuildLabel> labels) {
+        if (!labels.isEmpty()) {
+            BooleanBuilder subQuery = new BooleanBuilder();
+            labels.forEach(
+                    (label) -> subQuery.or(QBuild.build.labels.contains(label))
+            );
+            searchBuilder.and(subQuery);
+        }
     }
 }

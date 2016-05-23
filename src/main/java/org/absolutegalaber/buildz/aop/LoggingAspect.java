@@ -19,7 +19,7 @@ public class LoggingAspect {
 
     private final Logger log = LoggerFactory.getLogger("AppLog");
 
-    @Pointcut("within(com.piranha.util.buildz.service.*)")
+    @Pointcut("within(org.absolutegalaber.buildz.service.* || org.absolutegalaber.buildz.api.v1.*)")
     public void loggingPointcut() {
     }
 

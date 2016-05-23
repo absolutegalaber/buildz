@@ -1,0 +1,68 @@
+<div layout="row" layout-fill>
+    <div flex="60" layout-padding>
+        <div>
+            <h3>Environment {{EnvironmentController.environment.name}}</h3>
+            <h3>{{EnvironmentController.environment.artifacts.length}} defined Artifacts</h3>
+            <div ng-repeat="artifact in EnvironmentController.environment.artifacts" class="md-whiteframe-1dp" layout-padding>
+                <md-input-container class="md-block">
+                    <label>Project</label>
+                    <input type="text" ng-model="artifact.project">
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Branch</label>
+                    <input type="text" ng-model="artifact.branch">
+                </md-input-container>
+                <div layout="row" layout-padding ng-repeat="(key, val) in artifact.labels">
+                    <md-input-container class="md-block">
+                        <label>Label Name</label>
+                        <input type="text" ng-model="key" ng-disabled="true">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Label Value</label>
+                        <input type="text" ng-model="val" ng-disabled="true">
+                    </md-input-container>
+                    <md-button class="md-mini" ng-click="EnvironmentController.removeArtifactLabel(artifact, key)">x</md-button>
+                </div>
+                <div layout="row" layout-padding>
+                    <md-input-container class="md-block">
+                        <label>New Label Name</label>
+                        <input type="text" ng-model="EnvironmentController.newLabelKey">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>New Label Value</label>
+                        <input type="text" ng-model="EnvironmentController.newLabelVal">
+                    </md-input-container>
+                    <md-button class="md-mini" ng-click="EnvironmentController.addArtifactLabel(artifact, newLabelKey, newLabelVal)" ng-disabled="!EnvironmentController.newLabelKey || !EnvironmentController.newLabelVal">New Label</md-button>
+                </div>
+                <div layout="row">
+                    <span flex></span>
+                    <md-button ng-click="EnvironmentController.deleteArtifact(artifact)">Delete Artifact</md-button>
+                </div>
+            </div>
+            <div layout="row">
+                <span flex></span>
+                <md-button ng-click="EnvironmentController.addArtifact()">Add Artifact</md-button>
+                <span flex></span>
+                <md-button ng-click="EnvironmentController.verify()">Check</md-button>
+                <span flex></span>
+            </div>
+            <div layout="row">
+                <md-button ng-click="EnvironmentController.deleteEnvironment()">Delete</md-button>
+                <span flex></span>
+                <md-button ui-sref="home">Cancel</md-button>
+                <span flex></span>
+                <md-button class="md-primary" ng-click="EnvironmentController.saveEnvironment()">SAVE</md-button>
+            </div>
+        </div>
+    </div>
+    <div flex="40">
+        <md-list layout-fill>
+            <md-list-item>
+                <h3>Found a total of {{EnvironmentController.builds.length}} Builds</h3>
+            </md-list-item>
+            <md-list-item ng-repeat="build in EnvironmentController.builds" ui-sref="build({id:build.id})" layout-align="center">
+                {{build.project}} : {{build.branch}} : {{build.buildNumber}}
+            </md-list-item>
+        </md-list>
+    </div>
+</div>
