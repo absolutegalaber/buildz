@@ -21,6 +21,10 @@
                 <div ng-repeat="environementName in HomeController.stats.environments" layout-align="center">
                     <md-button ui-sref="environment({name:environementName})">{{environementName}}</md-button>
                 </div>
+                <div layout="row">
+                    <input type="text" ng-model="HomeController.newEnvName">
+                    <md-button ui-sref="createEnvironment({name:HomeController.newEnvName})" ng-disabled="!HomeController.newEnvName">Create</md-button>
+                </div>
             </div>
         </div>
     </div>

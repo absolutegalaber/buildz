@@ -48,7 +48,7 @@ module buildz {
         }
 
         deleteEnvironment() {
-            this.environment.$delete().then((response)=> {
+            this.resource.delete({name: this.environment.name}).$promise.then((response)=> {
                 this.$state.go('home')
             })
         }

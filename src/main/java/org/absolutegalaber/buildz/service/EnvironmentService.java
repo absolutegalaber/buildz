@@ -1,6 +1,5 @@
 package org.absolutegalaber.buildz.service;
 
-import org.absolutegalaber.buildz.domain.Artifact;
 import org.absolutegalaber.buildz.domain.Environment;
 import org.absolutegalaber.buildz.domain.InvalidRequestException;
 import org.absolutegalaber.buildz.repository.ArtifactRepository;
@@ -50,5 +49,9 @@ public class EnvironmentService {
             }
         }
         return environmentRepository.save(environment);
+    }
+
+    public void delete(String name) {
+        byName(name).ifPresent(environmentRepository::delete);
     }
 }

@@ -99,4 +99,9 @@ class EnvironmentServiceTest extends BaseBuildzSpec {
         then:
         thrown(InvalidRequestException)
     }
+
+    def "Delete"() {
+        expect:
+        service.delete('master-test-stage-1')
+    }
 }

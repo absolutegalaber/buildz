@@ -70,6 +70,23 @@ module buildz {
         });
     }]);
 
+    theApp.config(['$stateProvider', ($stateProvider)=> {
+        $stateProvider.state('createEnvironment', {
+            url: '/createEnvironment/:name',
+            templateUrl: 'views/environment.html',
+            controller: 'EnvironmentController',
+            controllerAs: 'EnvironmentController',
+            resolve: {
+                environment: ['$stateParams', 'EnvironmentResource', ($stateParams, resource:IEnvironmentResource)=> {
+                    var theNewEnv = new resource();
+                    theNewEnv.name = $stateParams['name'];
+                    theNewEnv.artifacts = [];
+                    return theNewEnv;
+                }]
+            }
+        });
+    }]);
+
 
     theApp.config(['$urlRouterProvider', ($urlRouterProvider)=> {
         $urlRouterProvider.otherwise('/')

@@ -72,4 +72,14 @@ class EnvironmentResourceV1Test extends BaseRestSpec {
         and:
         (response.data as JSONArray).size() == 1
     }
+
+    def "Delete"() {
+        when:
+        HttpResponseDecorator response = restClient.delete([
+                path: '/v1/environments/master-test-stage-1'
+        ])
+
+        then:
+        response.isSuccess()
+    }
 }

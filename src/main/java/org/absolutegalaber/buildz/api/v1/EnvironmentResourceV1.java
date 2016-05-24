@@ -44,4 +44,10 @@ public class EnvironmentResourceV1 {
         });
         return toReturn;
     }
+
+    @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable String name) {
+        environmentService.delete(name);
+    }
+
 }
