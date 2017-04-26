@@ -1,9 +1,9 @@
 package org.absolutegalaber.buildz.domain;
 
-import com.google.common.base.Strings;
 import lombok.Data;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,8 +26,8 @@ public class BuildSearch {
     public PageRequest page() {
         int thePage = getPage() != null ? getPage() : 0;
         int thePageSize = getPageSize() != null ? getPageSize() : 10;
-        Sort.Direction theDirection = Strings.isNullOrEmpty(getSortDirection()) ? Sort.Direction.DESC : Sort.Direction.fromString(getSortDirection());
-        String theSortAttribute = Strings.isNullOrEmpty(getSortAttribute()) ? "buildNumber" : getSortAttribute();
+        Sort.Direction theDirection = !StringUtils.hasText(getSortDirection()) ? Sort.Direction.DESC : Sort.Direction.fromString(getSortDirection());
+        String theSortAttribute = !StringUtils.hasText(getSortAttribute()) ? "buildNumber" : getSortAttribute();
         return new PageRequest(thePage, thePageSize, new Sort(theDirection, theSortAttribute));
     }
 }

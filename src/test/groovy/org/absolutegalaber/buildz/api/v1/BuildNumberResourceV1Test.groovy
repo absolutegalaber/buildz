@@ -3,10 +3,12 @@ package org.absolutegalaber.buildz.api.v1
 import groovyx.net.http.HttpResponseDecorator
 import net.sf.json.JSONObject
 import org.absolutegalaber.buildz.api.BaseRestSpec
+import spock.lang.Ignore
 
 /**
  * Created by Josip.Mihelko @ Gmail
  */
+@Ignore
 class BuildNumberResourceV1Test extends BaseRestSpec {
 
     def "Set(), Current(), Next()"() {

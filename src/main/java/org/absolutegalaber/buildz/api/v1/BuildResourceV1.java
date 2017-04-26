@@ -5,7 +5,6 @@ import org.absolutegalaber.buildz.service.BuildService;
 import org.absolutegalaber.buildz.service.StatsService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,10 +14,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "v1/builds")
 public class BuildResourceV1 {
-    @Inject
-    private BuildService buildService;
-    @Inject
-    private StatsService statsService;
+    private final BuildService buildService;
+    private final StatsService statsService;
+
+    public BuildResourceV1(BuildService buildService, StatsService statsService) {
+        this.buildService = buildService;
+        this.statsService = statsService;
+    }
 
     @RequestMapping(value = "/stats", method = RequestMethod.GET)
     public BuildStats stats() {

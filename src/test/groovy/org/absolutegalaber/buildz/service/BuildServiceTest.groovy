@@ -2,17 +2,16 @@ package org.absolutegalaber.buildz.service
 
 import org.absolutegalaber.buildz.BaseBuildzSpec
 import org.absolutegalaber.buildz.domain.*
+import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Subject
 import spock.lang.Unroll
-
-import javax.inject.Inject
 
 /**
  * Created by Josip.Mihelko @ Gmail
  */
 class BuildServiceTest extends BaseBuildzSpec {
     @Subject
-    @Inject
+    @Autowired
     BuildService service
 
     @Unroll("#message")
@@ -109,6 +108,7 @@ class BuildServiceTest extends BaseBuildzSpec {
         null             | null      | 'technical_branch' | 'noSuchBranch'               | 0        | null              | null              | "Search(): is empty for empty lbel sub-search"
     }
 
+    @Unroll("#message")
     def "Latest()"() {
         Artifact artifact = new Artifact(
                 project: theProject,
@@ -121,17 +121,19 @@ class BuildServiceTest extends BaseBuildzSpec {
         Optional<Build> latest = service.latestArtifact(artifact)
 
         then:
-        latest.isPresent() == (expectedBuildNumber != null)
         if (expectedBuildNumber) {
+            latest.isPresent()
             latest.get().getBuildNumber() == expectedBuildNumber
+        } else {
+            !latest.isPresent()
         }
 
         where:
         theProject       | theBranch        | theLabelKey        | theLabelValue                | expectedBuildNumber | message
-        'buildz-backend' | 'master'         | null               | null                         | 2L                  | "Search(): finds latest build of branch master"
-        'buildz-backend' | null             | 'technical_branch' | 'feature/some-other-feature' | 4L                  | "Search(): finds latest build for a spcific label"
-        'buildz-backend' | null             | 'doesnot'          | 'exist'                      | null                | "Search(): is empty for missing labels"
-        'buildz-backend' | 'deleted-branch' | null               | null                         | null                | "Search(): is empty for missing project/branch combo"
+        'buildz-backend' | 'master'         | null               | null                         | 2L                  | "LatestArtifact(): finds latest build of branch master"
+        'buildz-backend' | null             | 'technical_branch' | 'feature/some-other-feature' | 4L                  | "LatestArtifact(): finds latest build for a spcific label"
+        'buildz-backend' | null             | 'doesnot'          | 'exist'                      | null                | "LatestArtifact(): is empty for missing labels"
+        'buildz-backend' | 'deleted-branch' | null               | null                         | null                | "LatestArtifact(): is empty for missing project/branch combo"
     }
 
     @Unroll("#message")

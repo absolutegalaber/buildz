@@ -6,10 +6,12 @@ import groovyx.net.http.HttpResponseException
 import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 import org.absolutegalaber.buildz.api.BaseRestSpec
+import spock.lang.Ignore
 
 /**
  * Created by Josip.Mihelko @ Gmail
  */
+@Ignore
 class EnvironmentResourceV1Test extends BaseRestSpec {
 
     def "Get"() {

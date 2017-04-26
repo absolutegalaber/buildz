@@ -6,19 +6,20 @@ import org.absolutegalaber.buildz.repository.BuildRepository;
 import org.absolutegalaber.buildz.repository.EnvironmentRepository;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-
 /**
  * Created by Josip.Mihelko @ Gmail
  */
 @Service
 public class StatsService {
-    @Inject
-    private BuildRepository buildRepository;
-    @Inject
-    private BuildLabelRepository buildLabelRepository;
-    @Inject
-    private EnvironmentRepository environmentRepository;
+    private final BuildRepository buildRepository;
+    private final BuildLabelRepository buildLabelRepository;
+    private final EnvironmentRepository environmentRepository;
+
+    public StatsService(BuildRepository buildRepository, BuildLabelRepository buildLabelRepository, EnvironmentRepository environmentRepository) {
+        this.buildRepository = buildRepository;
+        this.buildLabelRepository = buildLabelRepository;
+        this.environmentRepository = environmentRepository;
+    }
 
     public BuildStats stats() {
         return new BuildStats(

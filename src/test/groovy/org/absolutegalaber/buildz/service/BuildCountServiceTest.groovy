@@ -2,17 +2,16 @@ package org.absolutegalaber.buildz.service
 
 import org.absolutegalaber.buildz.BaseBuildzSpec
 import org.absolutegalaber.buildz.domain.BuildCount
+import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Subject
 import spock.lang.Unroll
-
-import javax.inject.Inject
 
 /**
  * Created by Josip.Mihelko @ Gmail
  */
 class BuildCountServiceTest extends BaseBuildzSpec {
     @Subject
-    @Inject
+    @Autowired
     BuildCountService service
 
     @Unroll("#message")

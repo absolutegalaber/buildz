@@ -1,0 +1,47 @@
+{
+  "builds": {
+    "buildz-backend": {
+      "id": 4,
+      "project": "buildz-backend",
+      "branch": "next",
+      "buildNumber": 4,
+      "labels": [
+        {
+          "id": 7,
+          "key": "technical_branch",
+          "value": "feature/some-other-feature"
+        },
+        {
+          "id": 8,
+          "key": "git_revision",
+          "value": "49cfc933d6f276ced6ea6e5903e0bd2c28613def"
+        }
+      ]
+    },
+    "buildz-frontend": {
+      "id": 5,
+      "project": "buildz-frontend",
+      "branch": "master",
+      "buildNumber": 1,
+      "labels": [
+        {
+          "id": 9,
+          "key": "technical_branch",
+          "value": "feature/some-other-feature"
+        },
+        {
+          "id": 10,
+          "key": "git_revision",
+          "value": "59cfc933d6f276ced6ea6e5903e0bd2c28613def"
+        }
+      ]
+    },
+    "buildz-backoffice": {
+      "id": 12,
+      "project": "buildz-backoffice",
+      "branch": "master",
+      "buildNumber": 3,
+      "labels": []
+    }
+  }
+}

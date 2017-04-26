@@ -8,7 +8,6 @@ import org.absolutegalaber.buildz.service.BuildService;
 import org.absolutegalaber.buildz.service.EnvironmentService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -19,11 +18,13 @@ import java.util.Set;
 @RestController
 @RequestMapping("v1/environments")
 public class EnvironmentResourceV1 {
-    @Inject
-    private EnvironmentService environmentService;
-    @Inject
-    private BuildService buildService;
+    private final EnvironmentService environmentService;
+    private final BuildService buildService;
 
+    public EnvironmentResourceV1(EnvironmentService environmentService, BuildService buildService) {
+        this.environmentService = environmentService;
+        this.buildService = buildService;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Environment save(@RequestBody Environment environment) throws InvalidRequestException {

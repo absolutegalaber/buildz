@@ -4,17 +4,16 @@ import org.absolutegalaber.buildz.BaseBuildzSpec
 import org.absolutegalaber.buildz.domain.Artifact
 import org.absolutegalaber.buildz.domain.Environment
 import org.absolutegalaber.buildz.domain.InvalidRequestException
+import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Subject
 import spock.lang.Unroll
-
-import javax.inject.Inject
 
 /**
  * Created by Josip.Mihelko @ Gmail
  */
 class EnvironmentServiceTest extends BaseBuildzSpec {
     @Subject
-    @Inject
+    @Autowired
     EnvironmentService service
 
     @Unroll("#message")

@@ -5,10 +5,12 @@ import groovyx.net.http.HttpResponseDecorator
 import groovyx.net.http.HttpResponseException
 import net.sf.json.JSONObject
 import org.absolutegalaber.buildz.api.BaseRestSpec
+import spock.lang.Ignore
 
 /**
  * Created by Josip.Mihelko @ Gmail
  */
+@Ignore
 class BuildResourceV1Test extends BaseRestSpec {
     def "Stats"() {
         when:

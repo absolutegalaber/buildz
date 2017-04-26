@@ -4,10 +4,11 @@ import org.absolutegalaber.buildz.domain.Environment;
 import org.absolutegalaber.buildz.domain.InvalidRequestException;
 import org.absolutegalaber.buildz.repository.ArtifactRepository;
 import org.absolutegalaber.buildz.repository.EnvironmentRepository;
+import org.absolutegalaber.buildz.repository.EnvironmentSpecs;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.util.Optional;
 
 /**
@@ -16,13 +17,16 @@ import java.util.Optional;
 @Service
 @Transactional
 public class EnvironmentService {
-    @Inject
-    private EnvironmentRepository environmentRepository;
-    @Inject
-    private ArtifactRepository artifactRepository;
+    private final EnvironmentRepository environmentRepository;
+    private final ArtifactRepository artifactRepository;
+
+    public EnvironmentService(EnvironmentRepository environmentRepository, ArtifactRepository artifactRepository) {
+        this.environmentRepository = environmentRepository;
+        this.artifactRepository = artifactRepository;
+    }
 
     public Optional<Environment> byName(String name) {
-        return Optional.ofNullable(environmentRepository.findByName(name));
+        return Optional.ofNullable(environmentRepository.findOne(EnvironmentSpecs.environmentWithName(name)));
     }
 
     public Environment create(String name) throws InvalidRequestException {

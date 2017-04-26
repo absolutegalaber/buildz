@@ -1,13 +1,12 @@
 package org.absolutegalaber.buildz.service;
 
-import com.mysema.query.types.expr.BooleanExpression;
 import org.absolutegalaber.buildz.domain.BuildCount;
-import org.absolutegalaber.buildz.domain.QBuildCount;
 import org.absolutegalaber.buildz.repository.BuildCountRepository;
+import org.absolutegalaber.buildz.repository.BuildCountSpecs;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.util.Optional;
 
 /**
@@ -16,8 +15,11 @@ import java.util.Optional;
 @Service
 @Transactional
 public class BuildCountService {
-    @Inject
-    protected BuildCountRepository buildCountRepository;
+    private final BuildCountRepository buildCountRepository;
+
+    public BuildCountService(BuildCountRepository buildCountRepository) {
+        this.buildCountRepository = buildCountRepository;
+    }
 
     public BuildCount next(String project, String branch) {
         BuildCount theCount = of(project, branch)
@@ -38,10 +40,8 @@ public class BuildCountService {
     }
 
     private Optional<BuildCount> of(String project, String branch) {
-        QBuildCount buildCount = QBuildCount.buildCount;
-        BooleanExpression where = buildCount.project.eq(project).and(
-                buildCount.branch.eq(branch)
-        );
-        return Optional.ofNullable(buildCountRepository.findOne(where));
+        Specifications<BuildCount> querySpec = Specifications.where(BuildCountSpecs.buildCountOfProject(project))
+                .and(BuildCountSpecs.buildCountOfBranch(branch));
+        return Optional.ofNullable(buildCountRepository.findOne(querySpec));
     }
 }

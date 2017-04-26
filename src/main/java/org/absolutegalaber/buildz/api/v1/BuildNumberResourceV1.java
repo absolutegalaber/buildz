@@ -4,16 +4,17 @@ import org.absolutegalaber.buildz.domain.BuildCount;
 import org.absolutegalaber.buildz.service.BuildCountService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
-
 /**
  * Created by Josip.Mihelko @ Gmail
  */
 @RestController
 @RequestMapping(value = "v1/buildNumbers")
 public class BuildNumberResourceV1 {
-    @Inject
-    private BuildCountService buildCountService;
+    private final BuildCountService buildCountService;
+
+    public BuildNumberResourceV1(BuildCountService buildCountService) {
+        this.buildCountService = buildCountService;
+    }
 
     @RequestMapping(value = "/next", method = RequestMethod.POST)
     public BuildCount next(@RequestBody BuildCount buildCount) {
