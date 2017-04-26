@@ -9,7 +9,6 @@ import org.absolutegalaber.buildz.repository.EnvironmentSpecs;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -19,9 +18,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.absolutegalaber.buildz.repository.BuildLabelSpecs.*;
+import static org.absolutegalaber.buildz.repository.BuildLabelSpecs.noBuildLabel;
+import static org.absolutegalaber.buildz.repository.BuildLabelSpecs.withKeyAndValue;
 import static org.absolutegalaber.buildz.repository.BuildSpecs.*;
-import static org.springframework.data.jpa.domain.Specifications.where;
 
 /**
  * Created by Josip.Mihelko @ Gmail
@@ -65,23 +64,23 @@ public class BuildService {
     }
 
     private Optional<Build> of(String project, String branch, Long buildNumber) {
-        Specifications<Build> query =
-                where(ofProject(project))
-                        .and(ofBranch(branch))
-                        .and(withBuildNumber(buildNumber));
-        return Optional.ofNullable(buildRepository.findOne(query));
+        QueryBuilder<Build> query = new QueryBuilder<Build>()
+                .and(ofProject(project))
+                .and(ofBranch(branch))
+                .and(withBuildNumber(buildNumber));
+        return Optional.ofNullable(buildRepository.findOne(query.theQuery()));
     }
 
     public BuildSearchResult search(BuildSearch search) {
         try {
+            QueryBuilder<Build> queryBuilder = new QueryBuilder<>(anyBuild());
             Set<BuildLabel> labelsToSearch = labelsToInclude(search.getLabels());
-            Specifications<Build> buildSearch = where(allBuilds());
-            buildSearch = addProjectAndBranchPredicates(buildSearch, search.getProject(), search.getBranch());
-            buildSearch = addMinMaxBuildNumberProedicates(buildSearch, search.getMinBuildNumber(), search.getMaxBuildNumber());
-            buildSearch = addLabelsPredicates(buildSearch, labelsToSearch);
-            return BuildSearchResult.fromPageResult(buildRepository.findAll(buildSearch, search.page()));
+            addProjectAndBranchPredicates(queryBuilder, search.getProject(), search.getBranch());
+            addMinMaxBuildNumberPredicates(queryBuilder, search.getMinBuildNumber(), search.getMaxBuildNumber());
+            addLabelsPredicates(queryBuilder, labelsToSearch);
+            return BuildSearchResult.fromPageResult(buildRepository.findAll(queryBuilder.theQuery(), search.page()));
         } catch (EmptyLabelsSearchException e) {
-            //labelsToInclude threw an exception because labels to search were specified but no labels could be found -> emtpy result
+            //labelsToInclude threw an exception because labels to search were specified but no labels could be found -> empty result
             return BuildSearchResult.emptyResult();
         }
     }
@@ -89,10 +88,10 @@ public class BuildService {
     public Optional<Build> latestArtifact(Artifact artifact) {
         try {
             Set<BuildLabel> buildLabels = labelsToInclude(artifact.getLabels());
-            Specifications<Build> buildSearch = where(allBuilds());
-            buildSearch = addProjectAndBranchPredicates(buildSearch, artifact.getProject(), artifact.getBranch());
-            buildSearch = addLabelsPredicates(buildSearch, buildLabels);
-            Page<Build> searchResult = buildRepository.findAll(buildSearch, new PageRequest(0, 3, new Sort(Sort.Direction.DESC, "buildNumber")));
+            QueryBuilder<Build> buildSearch = new QueryBuilder<>(anyBuild());
+            addProjectAndBranchPredicates(buildSearch, artifact.getProject(), artifact.getBranch());
+            addLabelsPredicates(buildSearch, buildLabels);
+            Page<Build> searchResult = buildRepository.findAll(buildSearch.theQuery(), new PageRequest(0, 3, new Sort(Sort.Direction.DESC, "buildNumber")));
             List<Build> foundBuilds = searchResult.getContent();
             return foundBuilds.isEmpty() ? Optional.empty() : Optional.of(foundBuilds.get(0));
         } catch (EmptyLabelsSearchException e) {
@@ -102,15 +101,9 @@ public class BuildService {
 
     private Set<BuildLabel> labelsToInclude(Map<String, String> labels) throws EmptyLabelsSearchException {
         if (!labels.isEmpty()) {
-            Specifications<BuildLabel> subQuery = where(noBuildLabel());
-            //a search over labels
-            for (Map.Entry<String, String> entry : labels.entrySet()) {
-                subQuery = subQuery.or(Specifications
-                        .where(withKey(entry.getKey()))
-                        .and(withValue(entry.getValue()))
-                );
-            }
-            Set<BuildLabel> labelsToSearch = Sets.newHashSet(buildLabelRepository.findAll(subQuery));
+            QueryBuilder<BuildLabel> subQuery = new QueryBuilder<>(noBuildLabel());
+            labels.forEach((key, val) -> subQuery.or(withKeyAndValue(key, val)));
+            Set<BuildLabel> labelsToSearch = Sets.newHashSet(buildLabelRepository.findAll(subQuery.theQuery()));
             if (labelsToSearch.isEmpty()) {
                 //labels were searches, but no label was found ==> we can return an empty search result right now.
                 throw new EmptyLabelsSearchException();
@@ -121,37 +114,32 @@ public class BuildService {
         return Sets.newHashSet();
     }
 
-    private Specifications<Build> addProjectAndBranchPredicates(Specifications<Build> buildSearch, String project, String branch) {
+    private void addProjectAndBranchPredicates(QueryBuilder<Build> queryBuilder, String project, String branch) {
         //search for a project name
         if (StringUtils.hasText(project)) {
-            buildSearch = buildSearch.and(ofProject(project));
+            queryBuilder.and(ofProject(project));
         }
         //search for a branch name
         if (StringUtils.hasText(branch)) {
-            buildSearch = buildSearch.and(ofBranch(branch));
+            queryBuilder.and(ofBranch(branch));
         }
-        return buildSearch;
     }
 
-    private Specifications<Build> addMinMaxBuildNumberProedicates(Specifications<Build> buildSearch, Long minBuild, Long maxBuild) {
+    private void addMinMaxBuildNumberPredicates(QueryBuilder<Build> buildSearch, Long minBuild, Long maxBuild) {
         if (minBuild != null) {
-            buildSearch = buildSearch.and(withBuildNumberGreaterThan(minBuild));
+            buildSearch.and(withBuildNumberGreaterThan(minBuild));
         }
         if (maxBuild != null) {
-            buildSearch = buildSearch.and(withBuildNumberGreaterThan(maxBuild));
+            buildSearch.and(withBuildNumberGreaterThan(maxBuild));
         }
-        return buildSearch;
     }
 
-    private Specifications<Build> addLabelsPredicates(Specifications<Build> buildSearch, Set<BuildLabel> labels) {
+    private void addLabelsPredicates(QueryBuilder<Build> buildSearch, Set<BuildLabel> labels) {
         if (!labels.isEmpty()) {
-            Specifications<Build> subQuery = where(noBuilds());
-            for (BuildLabel label : labels) {
-                subQuery = subQuery.or(hasLabel(label));
-            }
-            buildSearch = buildSearch.and(subQuery);
+            QueryBuilder<Build> subQuery = new QueryBuilder<>(noBuilds());
+            labels.forEach(buildLabel -> subQuery.or(hasLabel(buildLabel)));
+            buildSearch.and(subQuery);
         }
-        return buildSearch;
     }
 
     public EnvironmentBuilds ofEnvironment(String environmentName) throws InvalidRequestException {

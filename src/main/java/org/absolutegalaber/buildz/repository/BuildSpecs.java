@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
  * Created by Josip.Mihelko @ Gmail
  */
 public class BuildSpecs {
-    public static Specification<Build> allBuilds() {
+    public static Specification<Build> anyBuild() {
         return (root, criteriaQuery, criteriaBuilder) ->
                 criteriaBuilder.conjunction();
     }

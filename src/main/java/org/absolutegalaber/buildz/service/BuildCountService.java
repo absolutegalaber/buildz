@@ -3,7 +3,6 @@ package org.absolutegalaber.buildz.service;
 import org.absolutegalaber.buildz.domain.BuildCount;
 import org.absolutegalaber.buildz.repository.BuildCountRepository;
 import org.absolutegalaber.buildz.repository.BuildCountSpecs;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,8 +39,9 @@ public class BuildCountService {
     }
 
     private Optional<BuildCount> of(String project, String branch) {
-        Specifications<BuildCount> querySpec = Specifications.where(BuildCountSpecs.buildCountOfProject(project))
+        QueryBuilder<BuildCount> querySpec = new QueryBuilder<BuildCount>()
+                .and(BuildCountSpecs.buildCountOfProject(project))
                 .and(BuildCountSpecs.buildCountOfBranch(branch));
-        return Optional.ofNullable(buildCountRepository.findOne(querySpec));
+        return Optional.ofNullable(buildCountRepository.findOne(querySpec.theQuery()));
     }
 }
