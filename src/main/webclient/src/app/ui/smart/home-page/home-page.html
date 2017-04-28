@@ -1,0 +1,22 @@
+<div class="columns">
+
+  <div class="column is-one-third">
+    <bz-project-names
+      [projectNames]="(buildStats|async).projects"
+      (onSelectProject)="selectProject($event)"
+    >
+    </bz-project-names>
+  </div>
+
+  <div class="column is-one-third">
+    <p>Currently {{(buildStats|async).numberOfBuilds}} builds of {{(buildStats|async).projects.length}} projects with {{(buildStats|async).numberOfLabels}} Labels</p>
+  </div>
+
+  <div class="column is-one-third">
+    <bz-environment-names
+      [environmentNames]="(buildStats|async).environments">
+    </bz-environment-names>
+  </div>
+
+</div>
+

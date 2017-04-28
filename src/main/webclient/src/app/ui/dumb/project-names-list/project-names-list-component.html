@@ -1,0 +1,8 @@
+<nav class="panel">
+  <p class="panel-heading">
+    {{projectNames.length}} Projects
+  </p>
+  <a class="panel-block" *ngFor="let project of projectNames" (click)="onSelectProject.emit(project)">
+    {{project}}
+  </a>
+</nav>

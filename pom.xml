@@ -33,6 +33,7 @@
         <start-class>org.absolutegalaber.buildz.BuildzStarter</start-class>
         <frontend-maven-plugin.version>1.4</frontend-maven-plugin.version>
         <guava.version>21.0</guava.version>
+        <skip.frontend>false</skip.frontend>
     </properties>
 
     <repositories>
@@ -251,15 +252,46 @@
                     <workingDirectory>src/main/webclient</workingDirectory>
                 </configuration>
                 <executions>
-                    <!-- Install Node and NPM -->
+                    <!-- Install Node and Yarn -->
                     <execution>
-                        <id>install node and npm</id>
+                        <id>install node and yarn</id>
                         <goals>
                             <goal>install-node-and-yarn</goal>
                         </goals>
                         <configuration>
+                            <skip>${skip.frontend}</skip>
                             <nodeVersion>${node.Version}</nodeVersion>
                             <yarnVersion>${yarn.Version}</yarnVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>yarn install</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skip.frontend}</skip>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>yarn test</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skip.frontend}</skip>
+                            <arguments>test</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>yarn build</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skip.frontend}</skip>
+                            <arguments>build</arguments>
                         </configuration>
                     </execution>
                 </executions>

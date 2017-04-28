@@ -1,0 +1,75 @@
+<div class="box">
+  <form [formGroup]="theForm" (submit)="onSearchChanged.emit(buildSearchParams)">
+    <div class="field">
+      <label class="label is-small">Project</label>
+      <p class="control">
+        <input class="input is-small" type="text" formControlName="project" [(ngModel)]="buildSearchParams.project">
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label is-small">Branch</label>
+      <p class="control">
+        <input class="input is-small" type="text" formControlName="branch" [(ngModel)]="buildSearchParams.branch">
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label is-small">Min Build Number</label>
+      <p class="control">
+        <input class="input is-small" type="number" formControlName="minBuildNumber" [(ngModel)]="buildSearchParams.minBuildNumber">
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label is-small">Max Build Number</label>
+      <p class="control">
+        <input class="input is-small" type="number" formControlName="maxBuildNumber" [(ngModel)]="buildSearchParams.maxBuildNumber">
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label is-small">Sort By</label>
+      <div class="control">
+        <div class="select is-fullwidth is-smal">
+          <select formControlName="sortAttribute" [(ngModel)]="buildSearchParams.sortAttribute">
+            <option value="buildNumber">Build Number</option>
+            <option value="branch">Branch</option>
+            <option value="project">Project</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label is-small">Direction</label>
+      <div class="control">
+        <div class="select is-fullwidth is-smal">
+          <select formControlName="sortDirection" [(ngModel)]="buildSearchParams.sortDirection">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label is-small">PageSize</label>
+      <div class="control">
+        <div class="select is-fullwidth is-smal">
+          <select formControlName="pageSize" [(ngModel)]="buildSearchParams.pageSize">
+            <option value="3">3 / Page</option>
+            <option value="5">5 / Page</option>
+            <option value="10">10 / Page</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <p class="control">
+        <input type="submit" class="button is-primary">
+      </p>
+    </div>
+  </form>
+</div>
+

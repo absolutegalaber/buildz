@@ -1,0 +1,20 @@
+<table class="table">
+  <tr *ngFor="let build of buildSearchResult.builds">
+    <td>{{build.project}}</td>
+    <td>{{build.branch}}</td>
+    <td>{{build.buildNumber}}</td>
+  </tr>
+  <tr>
+    <td align="left"></td>
+    <td></td>
+    <td align="right"></td>
+  </tr>
+</table>
+<div>
+  <button class="button is-pulled-left" (click)="onPrevPage.emit()">
+    <span class="icon"><i class="fa fa-arrow-left"></i></span>
+  </button>
+  <button class="button is-pulled-right" (click)="onNextPage.emit()">
+    <span class="icon"><i class="fa fa-arrow-right"></i></span>
+  </button>
+</div>
