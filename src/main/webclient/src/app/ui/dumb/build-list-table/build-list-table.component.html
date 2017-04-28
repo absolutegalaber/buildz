@@ -11,10 +11,10 @@
   </tr>
 </table>
 <div>
-  <button class="button is-pulled-left" (click)="onPrevPage.emit()">
+  <button class="button is-pulled-left" (click)="onPrevPage.emit()" [disabled]="!buildSearchResult.hasPrevious">
     <span class="icon"><i class="fa fa-arrow-left"></i></span>
   </button>
-  <button class="button is-pulled-right" (click)="onNextPage.emit()">
+  <button class="button is-pulled-right" (click)="onNextPage.emit()" [disabled]="!buildSearchResult.hasNext">
     <span class="icon"><i class="fa fa-arrow-right"></i></span>
   </button>
 </div>

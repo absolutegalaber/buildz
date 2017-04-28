@@ -1,6 +1,6 @@
 import {createSelector} from "reselect";
 
-import {BuildzStore} from "./store/builds-store";
+import {BuildzStore} from "./store/buildz-store";
 import {IBuildSearch, IBuildSearchRequestParams, IBuildSearchResult, IBuildStats, ISearchLabel} from "./domain";
 
 export const buildStats = (store: BuildzStore): IBuildStats => store.stats;

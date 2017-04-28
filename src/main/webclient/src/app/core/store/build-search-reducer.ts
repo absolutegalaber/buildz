@@ -1,4 +1,4 @@
-import {IBuildSearch, IBuildSearchRequestParams} from "../domain";
+import {IBuild, IBuildSearch, IBuildSearchRequestParams} from "../domain";
 import {Action} from "@ngrx/store";
 import {cloneIt} from "./clone";
 
@@ -7,7 +7,8 @@ export const BUILD_SEARCH_MODIFIED = '[BuildSearch] Modified';
 export const PROJECT_SELECTED = '[BuildSearch] Project Selected';
 export const NEXT_BUILDS_PAGE = '[BuildSearch] Next Page';
 export const PREV_BUILDS_PAGE = '[BuildSearch] Prev Page';
-export const SEARCH_LOADED = '[BuildSearch] Loaded';
+export const SEARCH_LOADED = '[BuildSearch] Search Loaded';
+export const BUILD_LOADED = '[BuildSearch] Build Loaded';
 
 export class DoSearch implements Action {
   readonly type = SEARCH_BUILDS;
@@ -39,6 +40,12 @@ export class BuildSearchLoaded implements Action {
   constructor(public payload: IBuildSearch) {
   }
 }
+export class BuildLoaded implements Action {
+  readonly type = BUILD_LOADED;
+
+  constructor(public payload: IBuild) {
+  }
+}
 
 export type BuildSearchAction =
   DoSearch |
@@ -63,6 +70,7 @@ export const initial_IBuildSearch: IBuildSearch = {
     totalPages: 0,
     hasNext: false,
     hasPrevious: false,
+    selectedBuild: null
   }
 ;
 

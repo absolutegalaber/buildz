@@ -9,7 +9,7 @@ import {UiModule} from "./ui/ui.module";
 import {RouterModule} from "@angular/router";
 import {buildzRoutes} from "./app.routes";
 import {StoreModule} from "@ngrx/store";
-import {buildzRootReducer} from "./core/store/builds-store";
+import {buildzRootReducer} from "./core/store/buildz-store";
 import {EffectsModule} from "@ngrx/effects";
 import {BuildzEffects} from "./core/effects/buildz-effects";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";

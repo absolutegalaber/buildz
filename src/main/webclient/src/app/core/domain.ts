@@ -39,6 +39,7 @@ export interface IBuildSearch {
   totalPages: number;
   hasNext: boolean;
   hasPrevious: boolean;
+  selectedBuild: IBuild
 }
 
 export interface IBuildSearchRequestParams {

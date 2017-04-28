@@ -1,4 +1,4 @@
-import {IBuildSearch, IBuildStats} from "../domain";
+import {IBuild, IBuildSearch, IBuildStats} from "../domain";
 import {statsReducer} from "./build-reducer";
 import {compose} from "@ngrx/core/compose";
 import {environment} from "../../../environments/environment";
@@ -9,7 +9,8 @@ import {buildSearchReducer} from "./build-search-reducer";
 
 export interface BuildzStore {
   stats: IBuildStats,
-  buildSearch: IBuildSearch
+  buildSearch: IBuildSearch,
+  selectedBuild: IBuild
 }
 
 export const buildzReducer = {

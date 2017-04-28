@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Store} from "@ngrx/store";
-import {BuildzStore} from "../store/builds-store";
+import {BuildzStore} from "../store/buildz-store";
 import {StatsRequired} from "../store/build-reducer";
 import {BuildSearchModified, NextBuildsPage, PrevBuildsPage, ProjectSelected} from "../store/build-search-reducer";
 import {IBuildSearchRequestParams} from "../domain";

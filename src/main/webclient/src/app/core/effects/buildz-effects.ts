@@ -11,7 +11,7 @@ import {Actions, Effect} from "@ngrx/effects";
 import {STATS_REQUIRED, StatsLoaded} from "../store/build-reducer";
 import {IBuildSearch, IBuildStats} from "../domain";
 import {BUILD_SEARCH_MODIFIED, BuildSearchLoaded, NEXT_BUILDS_PAGE, PREV_BUILDS_PAGE, PROJECT_SELECTED, SEARCH_BUILDS} from "../store/build-search-reducer";
-import {BuildzStore} from "../store/builds-store";
+import {BuildzStore} from "../store/buildz-store";
 import {buildSearchRequestParameters} from "../selectors";
 import {go} from "@ngrx/router-store";
 @Injectable()

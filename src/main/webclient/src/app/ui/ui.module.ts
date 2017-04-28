@@ -8,6 +8,7 @@ import {BuildListPage} from "./smart/build-list-page/build-list-page";
 import {BuildSearchFormComponent} from "./dumb/build-search-form/build-search-form.component";
 import {BuildListTableComponent} from "./dumb/build-list-table/build-list-table.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import {BuildPage} from "./smart/build-page/build-page";
 @NgModule({
   imports: [
     CoreModule,
@@ -16,6 +17,7 @@ import {ReactiveFormsModule} from "@angular/forms";
   declarations: [
     HomePage,
     BuildListPage,
+    BuildPage,
     ProjectNamesListComponent,
     EnvironmentNamesListComponent,
     BuildSearchFormComponent,
