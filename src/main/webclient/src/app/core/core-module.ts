@@ -4,6 +4,7 @@ import {CommonModule} from "@angular/common";
 import {StoreModule} from "@ngrx/store";
 import {Selector} from "./services/selector-service";
 import {Dispatcher} from "./services/dispatcher-service";
+import {RouterModule} from "@angular/router";
 @NgModule({
   imports: [
     HttpModule
@@ -11,6 +12,7 @@ import {Dispatcher} from "./services/dispatcher-service";
   exports: [
     CommonModule,
     HttpModule,
+    RouterModule,
     StoreModule
   ]
 })

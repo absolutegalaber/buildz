@@ -24,7 +24,7 @@ export interface ISearchLabel {
   value: string;
 }
 
-export interface IBuildSearch {
+export interface IBuildState {
   project: string;
   branch: string;
   minBuildNumber: number;
@@ -39,7 +39,8 @@ export interface IBuildSearch {
   totalPages: number;
   hasNext: boolean;
   hasPrevious: boolean;
-  selectedBuild: IBuild
+  selectedBuild: IBuild;
+  buildInfoVisible: boolean;
 }
 
 export interface IBuildSearchRequestParams {

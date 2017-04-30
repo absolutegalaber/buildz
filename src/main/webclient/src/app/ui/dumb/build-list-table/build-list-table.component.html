@@ -1,11 +1,27 @@
 <table class="table">
+  <thead>
+  <tr>
+    <td>Project</td>
+    <td>Branch</td>
+    <td>#</td>
+    <td></td>
+  </tr>
+  </thead>
   <tr *ngFor="let build of buildSearchResult.builds">
     <td>{{build.project}}</td>
     <td>{{build.branch}}</td>
     <td>{{build.buildNumber}}</td>
+    <td>
+      <a (click)="onBuildSelected.emit(build.id)">
+        <span class="icon">
+          <i class="fa fa-info"></i>
+        </span>
+      </a>
+    </td>
   </tr>
   <tr>
     <td align="left"></td>
+    <td></td>
     <td></td>
     <td align="right"></td>
   </tr>

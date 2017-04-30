@@ -12,4 +12,6 @@ export class BuildListTableComponent {
   onPrevPage = new EventEmitter<void>();
   @Output()
   onNextPage = new EventEmitter<void>();
+  @Output()
+  onBuildSelected = new EventEmitter<number>();
 }

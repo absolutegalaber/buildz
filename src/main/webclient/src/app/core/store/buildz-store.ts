@@ -1,21 +1,20 @@
-import {IBuild, IBuildSearch, IBuildStats} from "../domain";
+import {IBuild, IBuildState, IBuildStats} from "../domain";
 import {statsReducer} from "./build-reducer";
 import {compose} from "@ngrx/core/compose";
 import {environment} from "../../../environments/environment";
 import {combineReducers} from "@ngrx/store";
 import {storeFreeze} from "ngrx-store-freeze";
 import {storeLogger} from "ngrx-store-logger";
-import {buildSearchReducer} from "./build-search-reducer";
+import {buildStateReducer} from "./build-state-reducer";
 
 export interface BuildzStore {
   stats: IBuildStats,
-  buildSearch: IBuildSearch,
-  selectedBuild: IBuild
+  buildState: IBuildState,
 }
 
 export const buildzReducer = {
   stats: statsReducer,
-  buildSearch: buildSearchReducer
+  buildState: buildStateReducer
 };
 
 const prodReducer = compose(combineReducers)(buildzReducer);

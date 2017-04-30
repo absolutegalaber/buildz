@@ -1,0 +1,30 @@
+<div class="columns">
+
+  <div class="column is-one-third">
+    <bz-build-search-form
+      [buildSearchParams]="buildSearchParameters | async"
+      (onSearchChanged)="searchChanged($event)">
+    </bz-build-search-form>
+  </div>
+
+  <div class="column is-two-thirds">
+
+    <bz-build-list-table
+      [buildSearchResult]="buildSearchResult | async"
+      (onPrevPage)="prevPage()"
+      (onNextPage)="nextPage()"
+      (onBuildSelected)="buildSelected($event)">
+    </bz-build-list-table>
+
+  </div>
+
+</div>
+
+
+<bz-build-info
+  [visible]="buildInfoVisible | async"
+  [build]="selectedBuild | async"
+  (onClose)="hideBuildInfo()"
+>
+</bz-build-info>
+

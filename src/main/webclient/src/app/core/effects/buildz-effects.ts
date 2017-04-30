@@ -7,10 +7,10 @@ import {Injectable} from "@angular/core";
 import {Http, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {Action, Store} from "@ngrx/store";
-import {Actions, Effect} from "@ngrx/effects";
+import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {STATS_REQUIRED, StatsLoaded} from "../store/build-reducer";
-import {IBuildSearch, IBuildStats} from "../domain";
-import {BUILD_SEARCH_MODIFIED, BuildSearchLoaded, NEXT_BUILDS_PAGE, PREV_BUILDS_PAGE, PROJECT_SELECTED, SEARCH_BUILDS} from "../store/build-search-reducer";
+import {IBuild, IBuildState, IBuildStats} from "../domain";
+import {BUILD_SEARCH_MODIFIED, BuildLoaded, BuildSearchLoaded, NEXT_BUILDS_PAGE, PREV_BUILDS_PAGE, PROJECT_SELECTED, SEARCH_BUILDS, SINGLE_BUILD_SELECTED} from "../store/build-state-reducer";
 import {BuildzStore} from "../store/buildz-store";
 import {buildSearchRequestParameters} from "../selectors";
 import {go} from "@ngrx/router-store";
@@ -43,8 +43,21 @@ export class BuildzEffects {
     .switchMap(([action, params]) =>
       this.http.post('/v1/builds/search', params)
         .mergeMap((res: Response) => [
-          new BuildSearchLoaded(res.json() as IBuildSearch),
-          go('build-list')
+          new BuildSearchLoaded(res.json() as IBuildState),
+          go(['/builds'])
         ])
+    );
+
+  @Effect()
+  singleBuildSelected$: Observable<Action> = this.actions$
+    .ofType(
+      SINGLE_BUILD_SELECTED
+    )
+    .map(toPayload)
+    .switchMap((id: number) =>
+      this.http.get(`/v1/builds/${id}`)
+        .map((res: Response) =>
+          new BuildLoaded(res.json() as IBuild),
+        )
     );
 }

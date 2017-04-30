@@ -4,11 +4,11 @@ import {HomePage} from "./smart/home-page/home-page";
 import {Dispatcher} from "../core/services/dispatcher-service";
 import {ProjectNamesListComponent} from "./dumb/project-names-list/project-names-list-component";
 import {EnvironmentNamesListComponent} from "./dumb/environment-names-list/environment-names-list-component";
-import {BuildListPage} from "./smart/build-list-page/build-list-page";
+import {BuildPage} from "./smart/build-page/build-page";
 import {BuildSearchFormComponent} from "./dumb/build-search-form/build-search-form.component";
 import {BuildListTableComponent} from "./dumb/build-list-table/build-list-table.component";
 import {ReactiveFormsModule} from "@angular/forms";
-import {BuildPage} from "./smart/build-page/build-page";
+import {BuildInfoComponent} from "./dumb/build-info/build-info.component";
 @NgModule({
   imports: [
     CoreModule,
@@ -16,13 +16,14 @@ import {BuildPage} from "./smart/build-page/build-page";
   ],
   declarations: [
     HomePage,
-    BuildListPage,
     BuildPage,
     ProjectNamesListComponent,
     EnvironmentNamesListComponent,
     BuildSearchFormComponent,
-    BuildListTableComponent
-  ]
+    BuildListTableComponent,
+    BuildInfoComponent
+  ],
+  providers: []
 })
 export class UiModule {
   constructor(dispatcher: Dispatcher) {

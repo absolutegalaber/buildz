@@ -1,11 +1,10 @@
 import {createSelector} from "reselect";
-
 import {BuildzStore} from "./store/buildz-store";
-import {IBuildSearch, IBuildSearchRequestParams, IBuildSearchResult, IBuildStats, ISearchLabel} from "./domain";
+import {IBuild, IBuildSearchRequestParams, IBuildSearchResult, IBuildState, IBuildStats, ISearchLabel} from "./domain";
 
 export const buildStats = (store: BuildzStore): IBuildStats => store.stats;
-export const buildSearch = (store: BuildzStore): IBuildSearch => store.buildSearch;
-export const buildSearchRequestParameters = createSelector(buildSearch, (buildSearch: IBuildSearch): IBuildSearchRequestParams => {
+export const buildSearch = (store: BuildzStore): IBuildState => store.buildState;
+export const buildSearchRequestParameters = createSelector(buildSearch, (buildSearch: IBuildState): IBuildSearchRequestParams => {
   return {
     project: buildSearch.project,
     branch: buildSearch.branch,
@@ -18,7 +17,7 @@ export const buildSearchRequestParameters = createSelector(buildSearch, (buildSe
     sortDirection: buildSearch.sortDirection,
   }
 });
-export const buildSearchResult = createSelector(buildSearch, (buildSearch: IBuildSearch): IBuildSearchResult => {
+export const buildSearchResult = createSelector(buildSearch, (buildSearch: IBuildState): IBuildSearchResult => {
   return {
     builds: buildSearch.builds,
     totalElements: buildSearch.totalElements,
@@ -27,6 +26,8 @@ export const buildSearchResult = createSelector(buildSearch, (buildSearch: IBuil
     hasPrevious: buildSearch.hasPrevious
   }
 });
+export const selectedBuild = (store: BuildzStore): IBuild => store.buildState.selectedBuild;
+export const buildInfoVisible = (store: BuildzStore): boolean => store.buildState.buildInfoVisible;
 
 export const labelsToMap = (labels: ISearchLabel[]): { [key: string]: string } => {
   let toReturn = {};

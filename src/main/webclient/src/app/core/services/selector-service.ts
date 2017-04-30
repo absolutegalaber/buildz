@@ -3,7 +3,7 @@ import {Store} from "@ngrx/store";
 import {BuildzStore} from "../store/buildz-store";
 import {IBuildSearchRequestParams, IBuildSearchResult, IBuildStats} from "../domain";
 import {Observable} from "rxjs/Observable";
-import {buildSearchRequestParameters, buildSearchResult, buildStats} from "../selectors";
+import {buildInfoVisible, buildSearchRequestParameters, buildSearchResult, buildStats, selectedBuild} from "../selectors";
 
 @Injectable()
 export class Selector {
@@ -21,5 +21,13 @@ export class Selector {
 
   buildSearchResult(): Observable<IBuildSearchResult> {
     return this.store.select(buildSearchResult);
+  }
+
+  selectedBuild() {
+    return this.store.select(selectedBuild);
+  }
+
+  buildInfoVisible() {
+    return this.store.select(buildInfoVisible);
   }
 }
