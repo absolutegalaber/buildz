@@ -1,6 +1,6 @@
 import {createSelector} from "reselect";
 import {BuildzStore} from "./store/buildz-store";
-import {IBuild, IBuildSearchRequestParams, IBuildSearchResult, IBuildState, IBuildStats, ISearchLabel} from "./domain";
+import {IArtifact, IBuild, IBuildSearchRequestParams, IBuildSearchResult, IBuildState, IBuildStats, IEnvironment, ISearchLabel} from "./domain";
 
 export const buildStats = (store: BuildzStore): IBuildStats => store.stats;
 export const buildSearch = (store: BuildzStore): IBuildState => store.buildState;
@@ -28,6 +28,9 @@ export const buildSearchResult = createSelector(buildSearch, (buildSearch: IBuil
 });
 export const selectedBuild = (store: BuildzStore): IBuild => store.buildState.selectedBuild;
 export const buildInfoVisible = (store: BuildzStore): boolean => store.buildState.buildInfoVisible;
+export const selectedEnvironment = (store: BuildzStore): IEnvironment => store.environmentState.environment;
+export const selectedEnvironmentName = createSelector(selectedEnvironment, (env: IEnvironment): string => env != null ? env.name : null)
+export const selectedEnvironmentArtifacts = createSelector(selectedEnvironment, (env: IEnvironment): IArtifact[] => env != null ? env.artifacts : [])
 
 export const labelsToMap = (labels: ISearchLabel[]): { [key: string]: string } => {
   let toReturn = {};

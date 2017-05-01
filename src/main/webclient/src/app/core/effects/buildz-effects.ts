@@ -9,11 +9,12 @@ import {Observable} from "rxjs/Observable";
 import {Action, Store} from "@ngrx/store";
 import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {STATS_REQUIRED, StatsLoaded} from "../store/build-reducer";
-import {IBuild, IBuildState, IBuildStats} from "../domain";
+import {IBuild, IBuildState, IBuildStats, IEnvironment} from "../domain";
 import {BUILD_SEARCH_MODIFIED, BuildLoaded, BuildSearchLoaded, NEXT_BUILDS_PAGE, PREV_BUILDS_PAGE, PROJECT_SELECTED, SEARCH_BUILDS, SINGLE_BUILD_SELECTED} from "../store/build-state-reducer";
 import {BuildzStore} from "../store/buildz-store";
 import {buildSearchRequestParameters} from "../selectors";
 import {go} from "@ngrx/router-store";
+import {ENV_SELECTED, EnvironmentLoaded} from "../store/environment-state-reducer";
 @Injectable()
 export class BuildzEffects {
 
@@ -59,5 +60,19 @@ export class BuildzEffects {
         .map((res: Response) =>
           new BuildLoaded(res.json() as IBuild),
         )
+    );
+
+  @Effect()
+  singleEnvironmentSelected$: Observable<Action> = this.actions$
+    .ofType(
+      ENV_SELECTED
+    )
+    .map(toPayload)
+    .switchMap((envName: string) =>
+      this.http.get(`/v1/environments/${envName}`)
+        .mergeMap((res: Response) => [
+          new EnvironmentLoaded(res.json() as IEnvironment),
+          go(['/environments'])
+        ])
     );
 }

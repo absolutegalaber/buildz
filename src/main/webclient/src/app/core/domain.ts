@@ -62,3 +62,18 @@ export interface IBuildSearchResult {
   hasNext: boolean;
   hasPrevious: boolean;
 }
+
+export interface IArtifact {
+  project: string;
+  branch: string;
+  labels: { [key: string]: string }
+}
+
+export interface IEnvironment {
+  name: string;
+  artifacts: Array<IArtifact>;
+}
+
+export interface IEnvironmentState {
+  environment: IEnvironment;
+}

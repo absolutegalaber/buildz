@@ -14,7 +14,10 @@ export class HomePage {
   }
 
   selectProject(projectName: string) {
-    console.log(`Selected: ${projectName}`);
     this.dispatcher.projectSelected(projectName);
+  }
+
+  selectEnvironment(environmentName: string) {
+    this.dispatcher.environmentSelected(environmentName);
   }
 }

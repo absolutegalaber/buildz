@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from "@angular/core";
 @Component({
   selector: 'bz-environment-names',
   templateUrl: './environment-names-list-component.html',
@@ -7,4 +7,6 @@ import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
 export class EnvironmentNamesListComponent {
   @Input()
   environmentNames: string[];
+  @Output()
+  onSelectEnvironment = new EventEmitter<string>();
 }

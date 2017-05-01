@@ -4,6 +4,7 @@ import {BuildzStore} from "../store/buildz-store";
 import {StatsRequired} from "../store/build-reducer";
 import {BuildSearchModified, BuildSelected, HideBuildInfo, NextBuildsPage, PrevBuildsPage, ProjectSelected} from "../store/build-state-reducer";
 import {IBuildSearchRequestParams} from "../domain";
+import {EnvironmentSelected} from "../store/environment-state-reducer";
 @Injectable()
 export class Dispatcher {
 
@@ -36,5 +37,9 @@ export class Dispatcher {
 
   hideBuildInfo() {
     this.store.dispatch(new HideBuildInfo());
+  }
+
+  environmentSelected(envName: string) {
+    this.store.dispatch(new EnvironmentSelected(envName));
   }
 }

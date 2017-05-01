@@ -2,7 +2,7 @@
   <p class="panel-heading">
     {{environmentNames.length}} Defined Environments
   </p>
-  <a class="panel-block" *ngFor="let env of environmentNames">
+  <a class="panel-block" *ngFor="let env of environmentNames" (click)="onSelectEnvironment.emit(env)">
     {{env}}
   </a>
 </nav>

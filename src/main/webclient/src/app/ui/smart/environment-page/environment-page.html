@@ -1,0 +1,8 @@
+<div class="columns" *ngFor="let artifact of (artifacts | async)">
+  <div class="column is-half">
+    <bz-artifact-form
+      [artifact]="artifact"
+    >
+    </bz-artifact-form>
+  </div>
+</div>

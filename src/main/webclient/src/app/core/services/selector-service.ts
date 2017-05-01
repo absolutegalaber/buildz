@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {Store} from "@ngrx/store";
 import {BuildzStore} from "../store/buildz-store";
-import {IBuildSearchRequestParams, IBuildSearchResult, IBuildStats} from "../domain";
+import {IArtifact, IBuild, IBuildSearchRequestParams, IBuildSearchResult, IBuildStats} from "../domain";
 import {Observable} from "rxjs/Observable";
-import {buildInfoVisible, buildSearchRequestParameters, buildSearchResult, buildStats, selectedBuild} from "../selectors";
+import {buildInfoVisible, buildSearchRequestParameters, buildSearchResult, buildStats, selectedBuild, selectedEnvironmentArtifacts, selectedEnvironmentName} from "../selectors";
 
 @Injectable()
 export class Selector {
@@ -23,11 +23,20 @@ export class Selector {
     return this.store.select(buildSearchResult);
   }
 
-  selectedBuild() {
+  selectedBuild(): Observable<IBuild> {
     return this.store.select(selectedBuild);
   }
 
-  buildInfoVisible() {
+  buildInfoVisible(): Observable<boolean> {
     return this.store.select(buildInfoVisible);
   }
+
+  selectedEnvironmentName(): Observable<string> {
+    return this.store.select(selectedEnvironmentName);
+  }
+
+  selectedEnvironmentArtifacts(): Observable<IArtifact[]> {
+    return this.store.select(selectedEnvironmentArtifacts);
+  }
+
 }

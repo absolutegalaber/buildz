@@ -5,15 +5,20 @@ import {StoreModule} from "@ngrx/store";
 import {Selector} from "./services/selector-service";
 import {Dispatcher} from "./services/dispatcher-service";
 import {RouterModule} from "@angular/router";
+import {CloningPipe} from "./services/Cloning.pipe";
 @NgModule({
   imports: [
     HttpModule
+  ],
+  declarations: [
+    CloningPipe
   ],
   exports: [
     CommonModule,
     HttpModule,
     RouterModule,
-    StoreModule
+    StoreModule,
+    CloningPipe
   ]
 })
 export class CoreModule {

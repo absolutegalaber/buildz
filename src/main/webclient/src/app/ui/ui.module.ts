@@ -9,6 +9,8 @@ import {BuildSearchFormComponent} from "./dumb/build-search-form/build-search-fo
 import {BuildListTableComponent} from "./dumb/build-list-table/build-list-table.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {BuildInfoComponent} from "./dumb/build-info/build-info.component";
+import {EnvironmentPage} from "./smart/environment-page/environment-page";
+import {ArtifactForm} from "./dumb/artifact-form/artifact-form-component";
 @NgModule({
   imports: [
     CoreModule,
@@ -17,11 +19,13 @@ import {BuildInfoComponent} from "./dumb/build-info/build-info.component";
   declarations: [
     HomePage,
     BuildPage,
+    EnvironmentPage,
     ProjectNamesListComponent,
     EnvironmentNamesListComponent,
     BuildSearchFormComponent,
     BuildListTableComponent,
-    BuildInfoComponent
+    BuildInfoComponent,
+    ArtifactForm
   ],
   providers: []
 })
