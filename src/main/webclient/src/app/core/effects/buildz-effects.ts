@@ -9,12 +9,12 @@ import {Observable} from "rxjs/Observable";
 import {Action, Store} from "@ngrx/store";
 import {Actions, Effect, toPayload} from "@ngrx/effects";
 import {STATS_REQUIRED, StatsLoaded} from "../store/build-reducer";
-import {IBuild, IBuildState, IBuildStats} from "../domain";
+import {IBuild, IBuildState, IBuildStats, IEnvironment} from "../domain";
 import {BUILD_SEARCH_MODIFIED, BuildLoaded, BuildSearchLoaded, NEXT_BUILDS_PAGE, PREV_BUILDS_PAGE, PROJECT_SELECTED, SEARCH_BUILDS, SINGLE_BUILD_SELECTED} from "../store/build-state-reducer";
 import {BuildzStore} from "../store/buildz-store";
-import {artifactsForVerification, buildSearchRequestParameters} from "../selectors";
+import {artifactsForVerification, buildSearchRequestParameters, environmentToSave} from "../selectors";
 import {go} from "@ngrx/router-store";
-import {ENV_ARTIFACT_CHANGED, EnvironmentBuildsVerified, VERFIY_ENV_BUILDS} from "../store/environment-state-reducer";
+import {ENV_ARTIFACT_CHANGED, EnvironmentBuildsVerified, EnvironmentLoaded, SAVE_ENV, VERFIY_ENV_BUILDS} from "../store/environment-state-reducer";
 @Injectable()
 export class BuildzEffects {
 
@@ -73,6 +73,19 @@ export class BuildzEffects {
       this.http.post(`/v1/environments/verify`, artifacts)
         .map((res: Response) =>
           new EnvironmentBuildsVerified(res.json() as IBuild[])
+        )
+    );
+
+  @Effect()
+  saveEnvironment: Observable<Action> = this.actions$
+    .ofType(
+      SAVE_ENV
+    )
+    .withLatestFrom(this.store.select(environmentToSave))
+    .switchMap(([action, envToSave]) =>
+      this.http.post(`/v1/environments/`, envToSave)
+        .map((res: Response) =>
+          new EnvironmentLoaded(res.json() as IEnvironment)
         )
     );
 }

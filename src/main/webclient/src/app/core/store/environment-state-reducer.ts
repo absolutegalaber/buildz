@@ -8,6 +8,7 @@ export const ENV_ADD_ARTIFACT = '[EnvironmentState] Add Artifact';
 export const ENV_DELETE_ARTIFACT = '[EnvironmentState] Delete Artifact';
 export const VERFIY_ENV_BUILDS = '[EnvironmentState] Verify Environment Builds';
 export const ENV_BUILDS_VERIFIED = '[EnvironmentState] Environment Builds Loaded';
+export const SAVE_ENV = '[EnvironmentState] Save Environment ';
 
 export class EnvironmentLoaded implements Action {
   readonly type = ENV_LOADED;
@@ -38,6 +39,9 @@ export class EnvironmentBuildsVerified implements Action {
 
   constructor(public payload: IBuild[]) {
   }
+}
+export class SaveEnvironment implements Action {
+  readonly type = SAVE_ENV;
 }
 
 export type IEnvironmentAction =

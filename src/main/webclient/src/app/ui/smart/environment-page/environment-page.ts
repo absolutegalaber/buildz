@@ -38,7 +38,7 @@ export class EnvironmentPage {
     this.dispatcher.verifyEnvironment();
   }
 
-  saveEnv(envName: string) {
-
+  saveEnv() {
+    this.dispatcher.saveEnvironment();
   }
 }

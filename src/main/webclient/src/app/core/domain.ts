@@ -70,6 +70,7 @@ export interface IArtifact {
 }
 
 export interface IEnvironment {
+  id: number;
   name: string;
   artifacts: Array<IArtifact>;
 }

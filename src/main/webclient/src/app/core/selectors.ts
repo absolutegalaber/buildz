@@ -29,11 +29,18 @@ export const buildSearchResult = createSelector(buildSearch, (buildSearch: IBuil
 export const selectedBuild = (store: BuildzStore): IBuild => store.buildState.selectedBuild;
 export const buildInfoVisible = (store: BuildzStore): boolean => store.buildState.buildInfoVisible;
 export const selectedEnvironment = (store: BuildzStore): IEnvironment => store.environmentState.environment;
-export const selectedEnvironmentName = createSelector(selectedEnvironment, (env: IEnvironment): string => env != null ? env.name : null)
-export const selectedEnvironmentArtifacts = createSelector(selectedEnvironment, (env: IEnvironment): IArtifact[] => env != null ? env.artifacts : [])
+export const selectedEnvironmentName = createSelector(selectedEnvironment, (env: IEnvironment): string => env != null ? env.name : null);
+export const selectedEnvironmentArtifacts = createSelector(selectedEnvironment, (env: IEnvironment): IArtifact[] => env != null ? env.artifacts : []);
 export const artifactsForVerification = (store: BuildzStore): IArtifact[] => store.environmentState.artifactsForVerification;
 export const environmentBuilds = (store: BuildzStore): IBuild[] => store.environmentState.builds;
 export const environmentBuildsLoaded = (store: BuildzStore): boolean => store.environmentState.buildsLoaded;
+export const environmentToSave = createSelector(selectedEnvironment, artifactsForVerification, (env: IEnvironment, artifacts: IArtifact[]): IEnvironment => {
+  return {
+    id: env != null ? env.id : null,
+    name: env != null ? env.name : null,
+    artifacts: artifacts
+  }
+});
 
 export const labelsToMap = (labels: ISearchLabel[]): { [key: string]: string } => {
   let toReturn = {};
