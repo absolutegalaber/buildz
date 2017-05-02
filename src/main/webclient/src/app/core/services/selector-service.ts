@@ -3,10 +3,10 @@ import {Store} from "@ngrx/store";
 import {BuildzStore} from "../store/buildz-store";
 import {IArtifact, IBuild, IBuildSearchRequestParams, IBuildSearchResult, IBuildStats} from "../domain";
 import {Observable} from "rxjs/Observable";
-import {buildInfoVisible, buildSearchRequestParameters, buildSearchResult, buildStats, selectedBuild, selectedEnvironmentArtifacts, selectedEnvironmentName} from "../selectors";
+import {artifactsForVerification, buildInfoVisible, buildSearchRequestParameters, buildSearchResult, buildStats, environmentBuilds, environmentBuildsLoaded, selectedBuild, selectedEnvironmentName} from "../selectors";
 
 @Injectable()
-export class Selector {
+export class BuildzSelector {
 
   constructor(private store: Store<BuildzStore>) {
   }
@@ -36,7 +36,15 @@ export class Selector {
   }
 
   selectedEnvironmentArtifacts(): Observable<IArtifact[]> {
-    return this.store.select(selectedEnvironmentArtifacts);
+    return this.store.select(artifactsForVerification);
+  }
+
+  environmentBuilds(): Observable<IBuild[]> {
+    return this.store.select(environmentBuilds);
+  }
+
+  environmentBuildsLoaded(): Observable<boolean> {
+    return this.store.select(environmentBuildsLoaded);
   }
 
 }

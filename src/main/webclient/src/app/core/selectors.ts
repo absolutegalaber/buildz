@@ -31,6 +31,9 @@ export const buildInfoVisible = (store: BuildzStore): boolean => store.buildStat
 export const selectedEnvironment = (store: BuildzStore): IEnvironment => store.environmentState.environment;
 export const selectedEnvironmentName = createSelector(selectedEnvironment, (env: IEnvironment): string => env != null ? env.name : null)
 export const selectedEnvironmentArtifacts = createSelector(selectedEnvironment, (env: IEnvironment): IArtifact[] => env != null ? env.artifacts : [])
+export const artifactsForVerification = (store: BuildzStore): IArtifact[] => store.environmentState.artifactsForVerification;
+export const environmentBuilds = (store: BuildzStore): IBuild[] => store.environmentState.builds;
+export const environmentBuildsLoaded = (store: BuildzStore): boolean => store.environmentState.buildsLoaded;
 
 export const labelsToMap = (labels: ISearchLabel[]): { [key: string]: string } => {
   let toReturn = {};

@@ -15,7 +15,6 @@
   <div class="column is-one-third">
     <bz-environment-names
       [environmentNames]="(buildStats|async).environments"
-      (onSelectEnvironment)="selectEnvironment($event)"
     >
     </bz-environment-names>
   </div>

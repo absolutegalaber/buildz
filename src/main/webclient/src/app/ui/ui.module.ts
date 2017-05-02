@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {CoreModule} from "../core/core-module";
 import {HomePage} from "./smart/home-page/home-page";
-import {Dispatcher} from "../core/services/dispatcher-service";
+import {BuildzDispatcher} from "../core/services/dispatcher-service";
 import {ProjectNamesListComponent} from "./dumb/project-names-list/project-names-list-component";
 import {EnvironmentNamesListComponent} from "./dumb/environment-names-list/environment-names-list-component";
 import {BuildPage} from "./smart/build-page/build-page";
@@ -10,7 +10,9 @@ import {BuildListTableComponent} from "./dumb/build-list-table/build-list-table.
 import {ReactiveFormsModule} from "@angular/forms";
 import {BuildInfoComponent} from "./dumb/build-info/build-info.component";
 import {EnvironmentPage} from "./smart/environment-page/environment-page";
-import {ArtifactForm} from "./dumb/artifact-form/artifact-form-component";
+import {ArtifactFormComponent} from "./dumb/artifact-form/artifact-form-component";
+import {LoadEnvironmentGuard} from "./guards/load-environment.guard";
+import {ArtifactListComponent} from "./dumb/artifact-list/artifact-list.component";
 @NgModule({
   imports: [
     CoreModule,
@@ -25,12 +27,15 @@ import {ArtifactForm} from "./dumb/artifact-form/artifact-form-component";
     BuildSearchFormComponent,
     BuildListTableComponent,
     BuildInfoComponent,
-    ArtifactForm
+    ArtifactFormComponent,
+    ArtifactListComponent,
   ],
-  providers: []
+  providers: [
+    LoadEnvironmentGuard
+  ]
 })
 export class UiModule {
-  constructor(dispatcher: Dispatcher) {
+  constructor(dispatcher: BuildzDispatcher) {
     dispatcher.loadStats();
   }
 }

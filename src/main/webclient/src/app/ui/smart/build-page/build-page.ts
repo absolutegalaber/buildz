@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {Selector} from "../../../core/services/selector-service";
-import {Dispatcher} from "../../../core/services/dispatcher-service";
+import {BuildzSelector} from "../../../core/services/selector-service";
+import {BuildzDispatcher} from "../../../core/services/dispatcher-service";
 import {Observable} from "rxjs/Observable";
 import {IBuild, IBuildSearchRequestParams, IBuildSearchResult} from "../../../core/domain";
 @Component({
@@ -12,7 +12,7 @@ export class BuildPage {
   selectedBuild: Observable<IBuild>;
   buildInfoVisible: Observable<Boolean>;
 
-  constructor(selector: Selector, private dispatcher: Dispatcher) {
+  constructor(selector: BuildzSelector, private dispatcher: BuildzDispatcher) {
     this.buildSearchParameters = selector.buildSearchParams();
     this.buildSearchResult = selector.buildSearchResult();
     this.selectedBuild = selector.selectedBuild();

@@ -130,7 +130,7 @@ public class BuildService {
             buildSearch.and(withBuildNumberGreaterThan(minBuild));
         }
         if (maxBuild != null) {
-            buildSearch.and(withBuildNumberGreaterThan(maxBuild));
+            buildSearch.and(withBuildNumberLessThan(maxBuild));
         }
     }
 

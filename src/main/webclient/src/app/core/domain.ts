@@ -74,6 +74,14 @@ export interface IEnvironment {
   artifacts: Array<IArtifact>;
 }
 
+export interface IArtifactData {
+  newArtifact: IArtifact,
+  artifactIndex: number;
+}
+
 export interface IEnvironmentState {
   environment: IEnvironment;
+  builds: IBuild[];
+  buildsLoaded: boolean;
+  artifactsForVerification: IArtifact[];
 }

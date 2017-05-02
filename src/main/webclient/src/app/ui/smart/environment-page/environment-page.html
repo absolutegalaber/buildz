@@ -1,8 +1,33 @@
-<div class="columns" *ngFor="let artifact of (artifacts | async)">
-  <div class="column is-half">
-    <bz-artifact-form
-      [artifact]="artifact"
-    >
-    </bz-artifact-form>
+<div class="columns">
+
+  <div class="column is-two-thirds">
+
+    <div class="columns">
+      <div class="column">
+        <button class="button" (click)="addArtifact()">Add</button>
+      </div>
+    </div>
+
+    <div class="columns" *ngFor="let artifact of (artifacts | async); let artifactIndex = index;">
+      <div class="column is-three-quarters">
+        <bz-artifact-form
+                          [artifact]="artifact | cloneIt"
+                          (onArtifactChanged)="artifactChanged($event, artifactIndex)"
+        >
+        </bz-artifact-form>
+      </div>
+      <div class="column is-one-quarter">
+        <button (click)="deleteArtifact(artifactIndex)" class="button">Delete Artifact</button>
+      </div>
+    </div>
+
   </div>
+
+  <div class="column is-one-third">
+    <bz-artifact-list
+      [builds]="builds | async"
+    >
+    </bz-artifact-list>
+  </div>
+
 </div>

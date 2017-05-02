@@ -1,0 +1,14 @@
+<table class="table">
+  <thead>
+  <tr>
+    <td>Project</td>
+    <td>Branch</td>
+    <td>#</td>
+  </tr>
+  </thead>
+  <tr *ngFor="let build of builds">
+    <td>{{build.project}}</td>
+    <td>{{build.branch}}</td>
+    <td>{{build.buildNumber}}</td>
+  </tr>
+</table>

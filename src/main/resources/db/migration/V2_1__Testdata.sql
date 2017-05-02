@@ -13,9 +13,18 @@ INSERT INTO build (id, branch, build_number, project) VALUES (7, 'next', 1, 'bui
 INSERT INTO build (id, branch, build_number, project) VALUES (8, 'master', 4, 'buildz-frontend');
 INSERT INTO build (id, branch, build_number, project) VALUES (9, 'master', 5, 'buildz-frontend');
 
-INSERT INTO build (id, branch, build_number, project) VALUES (10, 'master', 1, 'buildz-backoffice');
-INSERT INTO build (id, branch, build_number, project) VALUES (11, 'master', 2, 'buildz-backoffice');
-INSERT INTO build (id, branch, build_number, project) VALUES (12, 'master', 3, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (10, 'master', 10, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (11, 'master', 11, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (12, 'master', 12, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (13, 'master', 13, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (14, 'master', 14, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (15, 'master', 15, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (16, 'next', 1, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (17, 'next', 2, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (18, 'next', 3, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (19, 'next', 4, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (20, 'next', 5, 'buildz-backoffice');
+INSERT INTO build (id, branch, build_number, project) VALUES (21, 'next', 6, 'buildz-backoffice');
 
 -- some labels
 INSERT INTO build_label (id, label_key, label_value, build_id) VALUES (1, 'technical_branch', 'master', 1);

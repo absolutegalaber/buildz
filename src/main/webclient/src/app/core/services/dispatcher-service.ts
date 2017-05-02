@@ -3,35 +3,35 @@ import {Store} from "@ngrx/store";
 import {BuildzStore} from "../store/buildz-store";
 import {StatsRequired} from "../store/build-reducer";
 import {BuildSearchModified, BuildSelected, HideBuildInfo, NextBuildsPage, PrevBuildsPage, ProjectSelected} from "../store/build-state-reducer";
-import {IBuildSearchRequestParams} from "../domain";
-import {EnvironmentSelected} from "../store/environment-state-reducer";
+import {IArtifactData, IBuildSearchRequestParams, IEnvironment} from "../domain";
+import {AddArtifact, ArtifactChanged, DeleteArtifact, EnvironmentLoaded} from "../store/environment-state-reducer";
 @Injectable()
-export class Dispatcher {
+export class BuildzDispatcher {
 
   constructor(private store: Store<BuildzStore>) {
   }
 
-  loadStats() {
+  loadStats(): void {
     this.store.dispatch(new StatsRequired());
   }
 
-  projectSelected(projectName: string) {
+  projectSelected(projectName: string): void {
     this.store.dispatch(new ProjectSelected(projectName));
   }
 
-  buildSearchChanged(params: IBuildSearchRequestParams) {
+  buildSearchChanged(params: IBuildSearchRequestParams): void {
     this.store.dispatch(new BuildSearchModified(params));
   }
 
-  prevBuildListPage() {
+  prevBuildListPage(): void {
     this.store.dispatch(new PrevBuildsPage());
   }
 
-  nextBuildListPage() {
+  nextBuildListPage(): void {
     this.store.dispatch(new NextBuildsPage());
   }
 
-  singleBuildSelected(id: number) {
+  singleBuildSelected(id: number): void {
     this.store.dispatch(new BuildSelected(id));
   }
 
@@ -39,7 +39,19 @@ export class Dispatcher {
     this.store.dispatch(new HideBuildInfo());
   }
 
-  environmentSelected(envName: string) {
-    this.store.dispatch(new EnvironmentSelected(envName));
+  environmentLoaded(env: IEnvironment): void {
+    this.store.dispatch(new EnvironmentLoaded(env));
+  }
+
+  artifactChanged(artifactData: IArtifactData): void {
+    this.store.dispatch(new ArtifactChanged(artifactData));
+  }
+
+  addArtifact() {
+    this.store.dispatch(new AddArtifact());
+  }
+
+  deleteArtifact(index: number) {
+    this.store.dispatch(new DeleteArtifact(index));
   }
 }

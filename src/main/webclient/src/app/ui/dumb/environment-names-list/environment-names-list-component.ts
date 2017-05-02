@@ -7,6 +7,4 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from "@
 export class EnvironmentNamesListComponent {
   @Input()
   environmentNames: string[];
-  @Output()
-  onSelectEnvironment = new EventEmitter<string>();
 }

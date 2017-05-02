@@ -1,21 +1,38 @@
 <div class="box">
-  <form [formGroup]="theForm">
+  <form [formGroup]="theForm" novalidate>
+    <div class="field is-horizontal">
+      <div class="field-body">
 
-    <div class="field">
-      <label class="label is-small">Project</label>
-      <p class="control">
-        <input class="input is-small" type="text" formControlName="project" [(ngModel)]="artifact.project">
-      </p>
+        <div class="field">
+          <label class="label is-small">Project</label>
+          <p class="control">
+            <input class="input is-small" type="text" formControlName="project">
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="label is-small">Branch</label>
+          <p class="control">
+            <input class="input is-small" type="text" formControlName="branch">
+          </p>
+        </div>
+      </div>
+
     </div>
 
     <div class="field">
-      <label class="label is-small">Branch</label>
+      <label class="label is-small">Labels</label>
       <p class="control">
-        <input class="input is-small" type="text" formControlName="branch" [(ngModel)]="artifact.branch">
+        <a class="button is-small" (click)="addLabel()">
+              <span class="icon">
+                <i class="fa fa-plus-circle"></i>
+              </span>
+        </a>
       </p>
     </div>
 
-    <div class="field is-horizontal" *ngFor="let labelGroup of theForm.controls.labels.controls; let i = index;">
+
+    <div class="field is-horizontal" *ngFor="let labelGroup of theForm.controls.labels.controls;">
       <div class="field-body">
         <div class="field">
           <label class="label is-small">Key</label>
@@ -29,10 +46,22 @@
             <input class="input is-small" type="text" [formControl]="labelGroup.controls.value">
           </p>
         </div>
+        <div class="field">
+          <label class="label is-small">Actions</label>
+          <p class="control">
+            <a class="button is-small" (click)="deleteLabel(labelGroup.controls.key.value)">
+              <span class="icon">
+                <i class="fa fa-minus-circle"></i>
+              </span>
+            </a>
+          </p>
+        </div>
       </div>
     </div>
     <div class="field">
-      <button (click)="test()">Test</button>
+      <p class="control">
+        <a class="button is-pulled-right" (click)="artifactChanged()">Validate</a>
+      </p>
     </div>
   </form>
 </div>
