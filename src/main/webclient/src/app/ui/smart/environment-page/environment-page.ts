@@ -23,7 +23,7 @@ export class EnvironmentPage {
     this.dispatcher.addArtifact();
   }
 
-  deleteArtifact(index:number) {
+  deleteArtifact(index: number) {
     this.dispatcher.deleteArtifact(index);
   }
 
@@ -32,5 +32,13 @@ export class EnvironmentPage {
       newArtifact: newArtifact,
       artifactIndex: artifactIndex
     });
+  }
+
+  verifyEnvironment() {
+    this.dispatcher.verifyEnvironment();
+  }
+
+  saveEnv(envName: string) {
+
   }
 }

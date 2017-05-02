@@ -4,15 +4,17 @@
 
     <div class="columns">
       <div class="column">
-        <button class="button" (click)="addArtifact()">Add</button>
+        <a class="button" (click)="addArtifact()">Add Artifact</a>
+        <a class="button" (click)="verifyEnvironment()">Verify / Load</a>
+        <a class="button is-primary" (click)="saveEnv()">Save</a>
       </div>
     </div>
 
     <div class="columns" *ngFor="let artifact of (artifacts | async); let artifactIndex = index;">
       <div class="column is-three-quarters">
         <bz-artifact-form
-                          [artifact]="artifact | cloneIt"
-                          (onArtifactChanged)="artifactChanged($event, artifactIndex)"
+          [artifact]="artifact | cloneIt"
+          (onArtifactChanged)="artifactChanged($event, artifactIndex)"
         >
         </bz-artifact-form>
       </div>

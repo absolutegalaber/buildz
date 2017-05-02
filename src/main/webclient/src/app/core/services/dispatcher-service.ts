@@ -4,7 +4,7 @@ import {BuildzStore} from "../store/buildz-store";
 import {StatsRequired} from "../store/build-reducer";
 import {BuildSearchModified, BuildSelected, HideBuildInfo, NextBuildsPage, PrevBuildsPage, ProjectSelected} from "../store/build-state-reducer";
 import {IArtifactData, IBuildSearchRequestParams, IEnvironment} from "../domain";
-import {AddArtifact, ArtifactChanged, DeleteArtifact, EnvironmentLoaded} from "../store/environment-state-reducer";
+import {AddArtifact, ArtifactChanged, DeleteArtifact, EnvironmentLoaded, VerifyEnvironment} from "../store/environment-state-reducer";
 @Injectable()
 export class BuildzDispatcher {
 
@@ -41,6 +41,10 @@ export class BuildzDispatcher {
 
   environmentLoaded(env: IEnvironment): void {
     this.store.dispatch(new EnvironmentLoaded(env));
+  }
+
+  verifyEnvironment(): void {
+    this.store.dispatch(new VerifyEnvironment());
   }
 
   artifactChanged(artifactData: IArtifactData): void {
