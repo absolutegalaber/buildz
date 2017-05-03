@@ -1,5 +1,5 @@
 import {IBuildState, IBuildStats, IEnvironmentState} from "../domain";
-import {statsReducer} from "./build-reducer";
+import {statsReducer} from "./stats-reducer";
 import {compose} from "@ngrx/core/compose";
 import {environment} from "../../../environments/environment";
 import {combineReducers} from "@ngrx/store";

@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Store} from "@ngrx/store";
 import {BuildzStore} from "../store/buildz-store";
-import {StatsRequired} from "../store/build-reducer";
+import {StatsRequired} from "../store/stats-reducer";
 import {BuildSearchModified, BuildSelected, HideBuildInfo, NextBuildsPage, PrevBuildsPage, ProjectSelected} from "../store/build-state-reducer";
 import {IArtifactData, IBuildSearchRequestParams, IEnvironment} from "../domain";
 import {AddArtifact, ArtifactChanged, DeleteArtifact, EnvironmentLoaded, SaveEnvironment, VerifyEnvironment} from "../store/environment-state-reducer";

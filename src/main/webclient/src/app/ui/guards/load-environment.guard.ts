@@ -5,7 +5,7 @@ import "rxjs/add/observable/of";
 import {Observable} from "rxjs/Observable";
 import {Http, Response} from "@angular/http";
 import {IEnvironment} from "../../core/domain";
-import {BuildzDispatcher} from "../../core/services/dispatcher-service";
+import {BuildzDispatcher} from "../../core/services/buildz-dispatcher-service";
 @Injectable()
 export class LoadEnvironmentGuard implements CanActivate {
 
@@ -17,6 +17,7 @@ export class LoadEnvironmentGuard implements CanActivate {
     return this.http.get(`/v1/environments/${environmentName}`)
       .map((res: Response) => {
         this.dispatcher.environmentLoaded(res.json() as IEnvironment);
+        this.dispatcher.verifyEnvironment();
         return true;
       }).catch((err: Response) => Observable.of(false));
   }

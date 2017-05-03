@@ -1,8 +1,8 @@
 import {Component} from "@angular/core";
-import {BuildzSelector} from "../../../core/services/selector-service";
+import {BuildzSelector} from "../../../core/services/buildz-selector-service";
 import {IArtifact, IBuild} from "../../../core/domain";
 import {Observable} from "rxjs/Observable";
-import {BuildzDispatcher} from "../../../core/services/dispatcher-service";
+import {BuildzDispatcher} from "../../../core/services/buildz-dispatcher-service";
 @Component({
   templateUrl: './environment-page.html'
 })
@@ -32,10 +32,6 @@ export class EnvironmentPage {
       newArtifact: newArtifact,
       artifactIndex: artifactIndex
     });
-  }
-
-  verifyEnvironment() {
-    this.dispatcher.verifyEnvironment();
   }
 
   saveEnv() {

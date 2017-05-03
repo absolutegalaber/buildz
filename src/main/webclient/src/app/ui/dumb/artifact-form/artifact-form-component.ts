@@ -12,6 +12,7 @@ export class ArtifactFormComponent implements OnInit {
   @Output()
   onArtifactChanged = new EventEmitter<IArtifact>();
   theForm: FormGroup;
+  labelsForm: FormArray;
 
 
   artifactChanged() {
@@ -23,7 +24,7 @@ export class ArtifactFormComponent implements OnInit {
     this.toFormModel();
   }
 
-  deleteLabel(key: string): void{
+  deleteLabel(key: string): void {
     delete this.artifact.labels[key];
     this.toFormModel();
   }
@@ -40,10 +41,10 @@ export class ArtifactFormComponent implements OnInit {
         value: new FormControl(this.artifact.labels[key])
       }));
     }
+    this.labelsForm = new FormArray(labelControls);
     this.theForm = new FormGroup({
       project: new FormControl(this.artifact.project),
       branch: new FormControl(this.artifact.branch),
-      labels: new FormArray(labelControls),
     });
   }
 
@@ -54,8 +55,8 @@ export class ArtifactFormComponent implements OnInit {
       branch: rawValue.branch,
       labels: {}
     };
-    for (let val of rawValue.labels) {
-      newArtifact.labels[val.key] = val.value;
+    for (let obj of this.labelsForm.getRawValue()) {
+      newArtifact.labels[obj.key] = obj.value;
     }
     return newArtifact;
   }

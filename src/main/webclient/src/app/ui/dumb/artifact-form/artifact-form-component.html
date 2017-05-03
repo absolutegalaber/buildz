@@ -1,5 +1,5 @@
 <div class="box">
-  <form [formGroup]="theForm" novalidate>
+  <form [formGroup]="theForm" novalidate (submit)="artifactChanged()">
     <div class="field is-horizontal">
       <div class="field-body">
 
@@ -32,24 +32,24 @@
     </div>
 
 
-    <div class="field is-horizontal" *ngFor="let labelGroup of theForm.controls.labels.controls;">
+    <div class="field is-horizontal" *ngFor="let labelGroup of labelsForm.controls;">
       <div class="field-body">
         <div class="field">
           <label class="label is-small">Key</label>
           <p class="control">
-            <input class="input is-small" type="text" [formControl]="labelGroup.controls.key">
+            <input class="input is-small" type="text" [formControl]="labelGroup.get('key')">
           </p>
         </div>
         <div class="field">
           <label class="label is-small">Value</label>
           <p class="control">
-            <input class="input is-small" type="text" [formControl]="labelGroup.controls.value">
+            <input class="input is-small" type="text" [formControl]="labelGroup.get('value')">
           </p>
         </div>
         <div class="field">
           <label class="label is-small">Actions</label>
           <p class="control">
-            <a class="button is-small" (click)="deleteLabel(labelGroup.controls.key.value)">
+            <a class="button is-small" (click)="deleteLabel(labelGroup.get('key').value)">
               <span class="icon">
                 <i class="fa fa-minus-circle"></i>
               </span>
@@ -60,7 +60,7 @@
     </div>
     <div class="field">
       <p class="control">
-        <a class="button is-pulled-right" (click)="artifactChanged()">Update</a>
+        <input type="submit" class="button is-pulled-right" value="Update/Test">
       </p>
     </div>
   </form>

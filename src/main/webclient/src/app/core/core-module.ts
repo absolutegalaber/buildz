@@ -2,10 +2,10 @@ import {NgModule} from "@angular/core";
 import {HttpModule} from "@angular/http";
 import {CommonModule} from "@angular/common";
 import {StoreModule} from "@ngrx/store";
-import {BuildzSelector} from "./services/selector-service";
-import {BuildzDispatcher} from "./services/dispatcher-service";
+import {BuildzSelector} from "./services/buildz-selector-service";
+import {BuildzDispatcher} from "./services/buildz-dispatcher-service";
 import {RouterModule} from "@angular/router";
-import {CloningPipe} from "./services/Cloning.pipe";
+import {CloningPipe} from "./services/cloning.pipe";
 @NgModule({
   imports: [
     HttpModule

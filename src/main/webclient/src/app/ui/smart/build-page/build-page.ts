@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {BuildzSelector} from "../../../core/services/selector-service";
-import {BuildzDispatcher} from "../../../core/services/dispatcher-service";
+import {BuildzSelector} from "../../../core/services/buildz-selector-service";
+import {BuildzDispatcher} from "../../../core/services/buildz-dispatcher-service";
 import {Observable} from "rxjs/Observable";
 import {IBuild, IBuildSearchRequestParams, IBuildSearchResult} from "../../../core/domain";
 @Component({

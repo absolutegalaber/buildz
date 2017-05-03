@@ -8,7 +8,7 @@ import {Http, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {Action, Store} from "@ngrx/store";
 import {Actions, Effect, toPayload} from "@ngrx/effects";
-import {STATS_REQUIRED, StatsLoaded} from "../store/build-reducer";
+import {STATS_REQUIRED, StatsLoaded} from "../store/stats-reducer";
 import {IBuild, IBuildState, IBuildStats, IEnvironment} from "../domain";
 import {BUILD_SEARCH_MODIFIED, BuildLoaded, BuildSearchLoaded, NEXT_BUILDS_PAGE, PREV_BUILDS_PAGE, PROJECT_SELECTED, SEARCH_BUILDS, SINGLE_BUILD_SELECTED} from "../store/build-state-reducer";
 import {BuildzStore} from "../store/buildz-store";
