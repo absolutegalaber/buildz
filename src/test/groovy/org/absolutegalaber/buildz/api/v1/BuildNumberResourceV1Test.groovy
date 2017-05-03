@@ -1,48 +1,75 @@
 package org.absolutegalaber.buildz.api.v1
 
-import groovyx.net.http.HttpResponseDecorator
-import net.sf.json.JSONObject
 import org.absolutegalaber.buildz.api.BaseRestSpec
-import spock.lang.Ignore
+import org.hamcrest.Matchers
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.ResultActions
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 /**
  * Created by Josip.Mihelko @ Gmail
  */
-@Ignore
 class BuildNumberResourceV1Test extends BaseRestSpec {
 
-    def "Set(), Current(), Next()"() {
+    def "Current() for existing project"() {
         given:
-        String theProject = 'Some-New-Crazy-Project'
-        String theBranch = 'master'
+        MockHttpServletRequestBuilder currentRequest = get('/v1/buildNumbers/current/buildz-backend/master')
 
         when:
-        HttpResponseDecorator setResponse = restClient.post([
-                path: '/v1/buildNumbers/set',
-                body: [
-                        project: theProject,
-                        branch : theBranch,
-                        count  : 2
-                ]
-        ])
-        HttpResponseDecorator currentResponse = restClient.get([
-                path: "/v1/buildNumbers/current/${theProject}/${theBranch}"
-        ])
-        HttpResponseDecorator nextResponse = restClient.post([
-                path: '/v1/buildNumbers/next',
-                body: [
-                        project: theProject,
-                        branch : theBranch
-                ]
-        ])
+        ResultActions result = mvc.perform(currentRequest)
 
         then:
-        setResponse.isSuccess()
-        currentResponse.isSuccess()
-        nextResponse.isSuccess()
+        result.andExpect(status().isOk())
+        and:
+        result.andExpect(jsonPath('count', Matchers.is(1)))
+    }
+
+    def "Current() on new project"() {
+        given:
+        MockHttpServletRequestBuilder currentRequest = get('/v1/buildNumbers/current/new-project/master')
+
+        when:
+        ResultActions result = mvc.perform(currentRequest)
+
+        then:
+        result.andExpect(status().isOk())
+        and:
+        result.andExpect(jsonPath('count', Matchers.is(0)))
+    }
+
+    def "Next() and Set()"() {
+        given: 'A Request to Next() and a Request to Set() Method'
+        MockHttpServletRequestBuilder request = post('/v1/buildNumbers/next')
+                .contentType(MediaType.APPLICATION_JSON)
+                .content('{"project":"some-crazy-project", "branch":"master"}')
+        MockHttpServletRequestBuilder setRequest = post('/v1/buildNumbers/set')
+                .contentType(MediaType.APPLICATION_JSON)
+                .content('{"project":"some-crazy-project", "branch":"master", "count":"10"}')
+
+        when:
+        //Call next
+        ResultActions first = mvc.perform(request)
+        //Call next again
+        ResultActions second = mvc.perform(request)
+        //set the current build number to something different
+        ResultActions third = mvc.perform(setRequest)
+        //Call next once again
+        ResultActions fourth = mvc.perform(request)
+
+        then:
+        first.andExpect(status().isOk())
+        second.andExpect(status().isOk())
+        third.andExpect(status().isOk())
+        fourth.andExpect(status().isOk())
 
         and:
-        (currentResponse.data as JSONObject).count == 2
-        (nextResponse.data as JSONObject).count == 3
+        first.andExpect(jsonPath('count', Matchers.is(1)))
+        second.andExpect(jsonPath('count', Matchers.is(2)))
+        fourth.andExpect(jsonPath('count', Matchers.is(11)))
     }
 }
